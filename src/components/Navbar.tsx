@@ -20,19 +20,19 @@ export const Navbar: React.FC<NavbarProps> = ({
 }) => {
   return (
     <header className="sticky top-0 z-40 border-b border-stone-200/80 bg-stone-50/90 backdrop-blur-md">
-      {/* Subtle Prototype / Stack status bar */}
+      {/* Condensed Top Accent Banner */}
       <div className="bg-emerald-950 text-emerald-100 text-xs py-1.5 px-4">
-        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
-          <span className="flex items-center gap-1.5 font-medium">
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-3">
+          <span className="flex items-center gap-1.5 font-medium truncate">
             <Sparkles className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-            <span>
-              <strong>Crestone, CO Local Board</strong> — 100% free community listings for e-bikes, batteries &amp; gear
+            <span className="truncate">
+              <strong>Crestone Local Board</strong> — Free community e-bike &amp; gear listings
             </span>
           </span>
-          <span className="text-emerald-300/90 hidden sm:inline">
+          <span className="text-emerald-300/80 text-[11px] shrink-0 hidden md:inline">
             {isSupabaseConfigured
               ? 'Connected to Supabase Live DB'
-              : 'Interactive Prototype Mode (Supabase + Magic Link Ready)'}
+              : 'Interactive Prototype • Supabase & Magic Link Ready'}
           </span>
         </div>
       </div>
@@ -83,9 +83,9 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           <button
             onClick={onOpenPostModal}
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold text-white bg-emerald-800 hover:bg-emerald-700 shadow-sm transition-colors cursor-pointer"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold text-stone-700 hover:text-emerald-800 hover:bg-stone-200/50 transition-colors cursor-pointer"
           >
-            <PlusCircle className="w-4 h-4" />
+            <PlusCircle className="w-4 h-4 text-emerald-800" />
             <span>Post Bike / Gear</span>
           </button>
 

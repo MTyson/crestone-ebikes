@@ -20,18 +20,21 @@ export const Hero: React.FC<HeroProps> = ({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
           {/* Left Column: Mission, Quote & CTA */}
-          <div className="lg:col-span-7 space-y-6">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-900/10 border border-emerald-800/20 text-emerald-900 text-xs sm:text-sm font-semibold">
-              <Mountain className="w-4 h-4 text-emerald-800" />
-              <span>Crestone &amp; The Sangre de Cristo Foothills</span>
-            </div>
+          <div className="lg:col-span-7 space-y-6 sm:space-y-7">
+            {/* Location & Title with Breathing Room */}
+            <div className="space-y-3">
+              <div className="flex items-center gap-2 text-xs sm:text-[13px] font-bold uppercase tracking-widest text-emerald-800">
+                <Mountain className="w-4 h-4 text-emerald-800 shrink-0" />
+                <span>Crestone &amp; The Sangre de Cristo Foothills</span>
+              </div>
 
-            <h1 className="font-serif-display text-4xl sm:text-5xl lg:text-6xl font-bold text-stone-900 tracking-tight leading-[1.08]">
-              Keep Crestone{' '}
-              <span className="text-emerald-800 underline decoration-amber-400/80 decoration-wavy decoration-2 underline-offset-8">
-                Two-Wheeled.
-              </span>
-            </h1>
+              <h1 className="font-serif-display text-4xl sm:text-5xl lg:text-6xl font-bold text-stone-900 tracking-tight leading-[1.08] pt-1">
+                Keep Crestone{' '}
+                <span className="text-emerald-800 underline decoration-amber-400/80 decoration-wavy decoration-2 underline-offset-8">
+                  Two-Wheeled.
+                </span>
+              </h1>
+            </div>
 
             <p className="text-lg sm:text-xl text-stone-600 leading-relaxed max-w-2xl">
               The neighborhood trading post for buying and selling used e-bikes, spare batteries,
@@ -57,7 +60,7 @@ export const Hero: React.FC<HeroProps> = ({
               </footer>
             </blockquote>
 
-            {/* Action Buttons */}
+            {/* Action Buttons: Solid Primary vs. Ghost/Outline Secondary */}
             <div className="flex flex-wrap items-center gap-3.5 pt-2">
               <a
                 href="#marketplace"
@@ -69,16 +72,16 @@ export const Hero: React.FC<HeroProps> = ({
 
               <button
                 onClick={onOpenPostModal}
-                className="inline-flex items-center gap-2 px-5 py-3.5 rounded-xl bg-white hover:bg-stone-100 text-stone-900 font-semibold text-base border border-stone-300 shadow-xs transition-all cursor-pointer"
+                className="inline-flex items-center gap-2 px-5 py-3.5 rounded-xl bg-transparent hover:bg-stone-200/50 text-stone-900 font-semibold text-base border-2 border-stone-800/80 hover:border-stone-900 transition-all cursor-pointer"
               >
-                <PlusCircle className="w-5 h-5 text-emerald-700" />
+                <PlusCircle className="w-5 h-5 text-emerald-800" />
                 <span>Post Your E-Bike or Gear (Free)</span>
               </button>
             </div>
 
-            {/* Trust / Quick Stats */}
-            <div className="pt-3 grid grid-cols-3 gap-4 border-t border-stone-200/90 text-xs sm:text-sm text-stone-600">
-              <div className="flex items-start gap-2">
+            {/* Trust / Quick Stats with increased vertical whitespace */}
+            <div className="pt-8 sm:pt-10 mt-8 sm:mt-10 grid grid-cols-1 sm:grid-cols-3 gap-6 border-t border-stone-200/90 text-xs sm:text-sm text-stone-600">
+              <div className="flex items-start gap-2.5">
                 <ShieldCheck className="w-5 h-5 text-emerald-700 shrink-0 mt-0.5" />
                 <div>
                   <span className="font-bold text-stone-900 block">
@@ -87,14 +90,14 @@ export const Hero: React.FC<HeroProps> = ({
                   Load-tested batteries &amp; brakes
                 </div>
               </div>
-              <div className="flex items-start gap-2">
+              <div className="flex items-start gap-2.5">
                 <Wrench className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
                 <div>
                   <span className="font-bold text-stone-900 block">Local Repair Bench</span>
                   Motors, controllers &amp; tune-ups
                 </div>
               </div>
-              <div className="flex items-start gap-2">
+              <div className="flex items-start gap-2.5">
                 <Heart className="w-5 h-5 text-rose-600 shrink-0 mt-0.5" />
                 <div>
                   <span className="font-bold text-stone-900 block">Community Supported</span>
