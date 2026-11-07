@@ -1,0 +1,124 @@
+import React from 'react';
+import { Bike, Heart, PlusCircle, Wrench, UserCheck, LogIn, LogOut, Sparkles } from 'lucide-react';
+import { AppUser } from '../types/listing';
+import { isSupabaseConfigured } from '../lib/supabase';
+
+interface NavbarProps {
+  currentUser: AppUser | null;
+  onOpenPostModal: () => void;
+  onOpenDonateModal: () => void;
+  onOpenAuthModal: () => void;
+  onSignOut: () => void;
+}
+
+export const Navbar: React.FC<NavbarProps> = ({
+  currentUser,
+  onOpenPostModal,
+  onOpenDonateModal,
+  onOpenAuthModal,
+  onSignOut,
+}) => {
+  return (
+    <header className="sticky top-0 z-40 border-b border-stone-200/80 bg-stone-50/90 backdrop-blur-md">
+      {/* Subtle Prototype / Stack status bar */}
+      <div className="bg-emerald-950 text-emerald-100 text-xs py-1.5 px-4">
+        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
+          <span className="flex items-center gap-1.5 font-medium">
+            <Sparkles className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+            <span>
+              <strong>Crestone, CO Local Board</strong> — 100% free community listings for e-bikes, batteries &amp; gear
+            </span>
+          </span>
+          <span className="text-emerald-300/90 hidden sm:inline">
+            {isSupabaseConfigured
+              ? 'Connected to Supabase Live DB'
+              : 'Interactive Prototype Mode (Supabase + Magic Link Ready)'}
+          </span>
+        </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between gap-3">
+        {/* Brand Logo */}
+        <a href="#" className="flex items-center gap-3 group">
+          <div className="w-11 h-11 rounded-xl bg-emerald-900 text-amber-300 flex items-center justify-center shadow-sm group-hover:bg-emerald-800 transition-colors">
+            <Bike className="w-6 h-6" />
+          </div>
+          <div>
+            <span className="font-serif-display text-xl sm:text-2xl font-bold tracking-tight text-stone-900 block leading-none">
+              Crestone E-Bikes
+            </span>
+            <span className="text-xs text-stone-500 font-medium tracking-wide">
+              CRESTONE &amp; BACA GRANDE, CO
+            </span>
+          </div>
+        </a>
+
+        {/* Navigation Links */}
+        <nav className="hidden md:flex items-center gap-7 text-sm font-semibold text-stone-700">
+          <a href="#marketplace" className="hover:text-emerald-800 transition-colors">
+            Bikes &amp; Gear For Sale
+          </a>
+          <a
+            href="#wade-workshop"
+            className="hover:text-emerald-800 transition-colors flex items-center gap-1.5"
+          >
+            <Wrench className="w-4 h-4 text-amber-600" />
+            Meet Wade &amp; Repairs
+          </a>
+          <a href="#how-it-works" className="hover:text-emerald-800 transition-colors">
+            How It Works
+          </a>
+        </nav>
+
+        {/* Actions */}
+        <div className="flex items-center gap-2.5">
+          <button
+            onClick={onOpenDonateModal}
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold text-amber-950 bg-amber-200/80 hover:bg-amber-300/90 border border-amber-300/80 transition-colors cursor-pointer"
+            title="Donate to keep Crestone E-Bikes free for the community"
+          >
+            <Heart className="w-4 h-4 text-amber-700 fill-amber-600" />
+            <span>Donate</span>
+          </button>
+
+          <button
+            onClick={onOpenPostModal}
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold text-white bg-emerald-800 hover:bg-emerald-700 shadow-sm transition-colors cursor-pointer"
+          >
+            <PlusCircle className="w-4 h-4" />
+            <span>Post Bike / Gear</span>
+          </button>
+
+          {currentUser ? (
+            <div className="flex items-center gap-1.5 pl-1">
+              <span
+                className="hidden lg:inline-flex items-center gap-1.5 text-xs font-medium bg-stone-200/80 text-stone-800 px-3 py-1.5 rounded-lg"
+                title={currentUser.email}
+              >
+                <UserCheck className="w-3.5 h-3.5 text-emerald-700" />
+                {currentUser.email.split('@')[0]}
+              </span>
+              <button
+                onClick={onSignOut}
+                className="p-2 rounded-lg text-stone-500 hover:text-stone-800 hover:bg-stone-200/60 transition-colors cursor-pointer"
+                title="Sign out"
+              >
+                <LogOut className="w-4 h-4" />
+              </button>
+            </div>
+          ) : (
+            <button
+              onClick={onOpenAuthModal}
+              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs sm:text-sm font-medium text-stone-700 hover:text-stone-900 hover:bg-stone-200/60 transition-colors cursor-pointer"
+              title="Sign in with email magic link"
+            >
+              <LogIn className="w-4 h-4 text-stone-600" />
+              <span className="hidden sm:inline">Sign In</span>
+            </button>
+          )}
+        </div>
+      </div>
+    </header>
+  );
+};
+
