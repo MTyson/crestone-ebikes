@@ -31,7 +31,7 @@ export const Hero: React.FC<HeroProps> = ({
               <h1 className="font-serif-display text-4xl sm:text-5xl lg:text-6xl font-bold text-stone-900 tracking-tight leading-[1.08] pt-1">
                 Keep Crestone{' '}
                 <span className="text-emerald-800 underline decoration-amber-400/80 decoration-wavy decoration-2 underline-offset-8">
-                  Two-Wheeled.
+                  Wheeled.
                 </span>
               </h1>
             </div>
