@@ -34,7 +34,7 @@ export const Hero: React.FC<HeroProps> = ({
           Meet the Owner &amp; Mechanic
         </p>
         <p className="font-serif-display text-xl sm:text-2xl font-bold leading-snug">
-          Wade with his hand-carved shop sign
+          Wade in front of his shop in the Baca
         </p>
         <p className="text-xs sm:text-sm text-stone-200 mt-1">
           Have an e-bike you want checked before buying or selling? Connect with Wade to schedule
