@@ -45,7 +45,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           </div>
           <div className="flex flex-col justify-center">
             <span className="font-serif-display text-lg sm:text-2xl font-bold tracking-tight text-stone-900 leading-snug">
-              Crestone E-Bikes
+              Crestone E-Bike
             </span>
             <span className="hidden sm:block text-xs text-stone-500 font-medium tracking-wide">
               CRESTONE &amp; BACA GRANDE, CO
@@ -75,7 +75,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           <button
             onClick={onOpenDonateModal}
             className="inline-flex items-center gap-1.5 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-xs sm:text-sm font-semibold text-amber-950 bg-amber-200/80 hover:bg-amber-300/90 border border-amber-300/80 transition-colors cursor-pointer shrink-0"
-            title="Donate to keep Crestone E-Bikes free for the community"
+            title="Donate to keep Crestone E-Bike free for the community"
           >
             <Heart className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-700 fill-amber-600" />
             <span>Donate</span>

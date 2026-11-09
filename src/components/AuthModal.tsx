@@ -27,7 +27,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSignedI
       const result = await sendMagicLinkEmail(email);
       if (result.mode === 'supabase') {
         setSentMessage(
-          `Check your inbox at ${email}! Click the magic link to sign in to Crestone E-Bikes.`
+          `Check your inbox at ${email}! Click the magic link to sign in to Crestone E-Bike.`
         );
       } else if (result.user) {
         onSignedIn(result.user);
@@ -66,7 +66,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSignedI
         </h2>
         <p className="text-sm text-stone-600 mt-1 leading-relaxed">
           No passwords to remember. Enter your email to get a simple one-click sign-in link to
-          manage your Crestone E-Bikes listings.
+          manage your Crestone E-Bike listings.
         </p>
 
         {sentMessage ? (

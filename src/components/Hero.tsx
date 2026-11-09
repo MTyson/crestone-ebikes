@@ -84,7 +84,7 @@ export const Hero: React.FC<HeroProps> = ({
               </p>
               <footer className="mt-2 flex items-center justify-between text-xs sm:text-sm text-stone-600">
                 <span>
-                  — <strong className="text-stone-900">Wade</strong>, Owner &amp; E-Bike Mechanic at Crestone E-Bikes
+                  — <strong className="text-stone-900">Wade</strong>, Owner &amp; E-Bike Mechanic at Crestone E-Bike
                 </span>
                 <a
                   href="#wade-workshop"

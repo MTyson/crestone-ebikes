@@ -100,7 +100,7 @@ export const INITIAL_LISTINGS: Listing[] = [
     status: 'active',
     battery_spec: '48V 17.5Ah (840Wh)',
     seller_name: 'Wade (Shop Consignment)',
-    seller_email: 'wade@crestoneebikes.com',
+    seller_email: 'wade@crestoneebike.com',
     seller_phone: '(719) 555-0101',
     preferred_contact: 'Text or Call',
   },

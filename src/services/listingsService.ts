@@ -9,7 +9,7 @@ import {
 } from '../types/listing';
 
 /**
- * Data layer for Crestone E-Bikes.
+ * Data layer for Crestone E-Bike.
  *
  * - Supabase configured  -> Postgres + Storage + Auth are the only source of truth.
  *   Errors are thrown so the UI can show them (we never fall back to fake data).

@@ -358,7 +358,7 @@ export const ListingDetailModal: React.FC<ListingDetailModalProps> = ({
                       <span className="text-xs text-stone-500 block">Email</span>
                       <a
                         href={`mailto:${contact.seller_email}?subject=${encodeURIComponent(
-                          `Crestone E-Bikes inquiry: ${listing.title}`
+                          `Crestone E-Bike inquiry: ${listing.title}`
                         )}`}
                         className="font-bold text-stone-900 hover:text-emerald-800 text-sm truncate block"
                       >
@@ -387,7 +387,7 @@ export const ListingDetailModal: React.FC<ListingDetailModalProps> = ({
             )}
 
             <p className="text-xs text-stone-600">
-              💡 <strong>Local Tip:</strong> You’re welcome to meet at the Crestone E-Bikes shop for
+              💡 <strong>Local Tip:</strong> You’re welcome to meet at the Crestone E-Bike shop for
               a test ride or battery load check!
             </p>
           </div>

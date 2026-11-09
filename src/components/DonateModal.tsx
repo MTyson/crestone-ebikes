@@ -64,7 +64,7 @@ export const DonateModal: React.FC<DonateModalProps> = ({ isOpen, onClose }) => 
         </div>
 
         <h2 className="font-serif-display text-2xl sm:text-3xl font-bold text-stone-900">
-          Keep Crestone E-Bikes Free for Everyone
+          Keep Crestone E-Bike Free for Everyone
         </h2>
         <p className="text-sm text-stone-600 mt-1.5 leading-relaxed">
           We keep posting and browsing 100% free so every neighbor in Crestone and the Baca can find
@@ -79,7 +79,7 @@ export const DonateModal: React.FC<DonateModalProps> = ({ isOpen, onClose }) => 
               Thank you, neighbor!
             </h3>
             <p className="text-sm text-stone-600">
-              Your ${selectedAmount} contribution helps cover crestoneebikes.com hosting and keeps
+              Your ${selectedAmount} contribution helps cover crestoneebike.com hosting and keeps
               Wade’s community repair bench humming.
             </p>
             <button
@@ -128,7 +128,7 @@ export const DonateModal: React.FC<DonateModalProps> = ({ isOpen, onClose }) => 
               onClick={handleSimulateDonate}
               className="w-full mt-2 py-3.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-stone-950 font-bold text-sm shadow-sm transition-colors cursor-pointer"
             >
-              Contribute ${selectedAmount} to Crestone E-Bikes
+              Contribute ${selectedAmount} to Crestone E-Bike
             </button>
 
             <p className="text-[11px] text-center text-stone-500 pt-1">

@@ -1,4 +1,4 @@
-# Crestone E-Bikes (`crestoneebikes.com`)
+# Crestone E-Bike (`crestoneebike.com`)
 
 Local community marketplace for buying and selling electric bikes, spare batteries, fat tires, and gear in **Crestone & the Baca Grande, Colorado**, paired with local mechanic **Wade’s E-Bike Workshop**.
 

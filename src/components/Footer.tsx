@@ -17,7 +17,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenPostModal, onOpenDonateMod
               Simple &amp; Local
             </span>
             <h2 className="font-serif-display text-3xl font-bold text-stone-900 mt-1">
-              How Crestone E-Bikes Works
+              How Crestone E-Bike Works
             </h2>
             <p className="text-sm sm:text-base text-stone-600 mt-2">
               No middleman fees or algorithms — just neighbors helping neighbors get around town and
@@ -75,7 +75,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenPostModal, onOpenDonateMod
               <div className="w-8 h-8 rounded-lg bg-emerald-800 text-amber-300 flex items-center justify-center">
                 <Bike className="w-4 h-4" />
               </div>
-              <span className="font-serif-display text-lg font-bold">crestoneebikes.com</span>
+              <span className="font-serif-display text-lg font-bold">crestoneebike.com</span>
             </div>
             <p className="text-xs text-stone-400 max-w-md">
               “I just want to get people riding bikes!” — Wade’s local e-bike workshop &amp;

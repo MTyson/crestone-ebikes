@@ -1,5 +1,5 @@
 -- ============================================================================
--- Crestone E-Bikes (crestoneebikes.com) — Supabase schema, RLS, storage
+-- Crestone E-Bike (crestoneebike.com) — Supabase schema, RLS, storage
 --
 -- Paste into Supabase Dashboard -> SQL Editor -> New query -> Run.
 -- Written for a FRESH project. It is safe to re-run (idempotent), but

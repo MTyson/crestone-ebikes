@@ -131,7 +131,7 @@ export const MeetWadeSection: React.FC = () => {
                   Get the “Wade Inspected” Badge on Your Listing
                 </h3>
                 <p className="text-sm text-stone-300 mt-1.5 leading-relaxed">
-                  Selling your bike on Crestone E-Bikes? Roll it by Wade’s shop for a quick safety
+                  Selling your bike on Crestone E-Bike? Roll it by Wade’s shop for a quick safety
                   and battery checkup so buyers know the battery holds a real charge and the brakes
                   are trail-ready.
                 </p>
@@ -189,7 +189,7 @@ export const MeetWadeSection: React.FC = () => {
             </p>
           </div>
           <a
-            href="mailto:wade@crestoneebikes.com?subject=E-Bike%20Repair%20or%20Inspection%20in%20Crestone"
+            href="mailto:wade@crestoneebike.com?subject=E-Bike%20Repair%20or%20Inspection%20in%20Crestone"
             className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-amber-400 hover:bg-amber-300 text-stone-950 font-bold text-sm transition-colors shrink-0"
           >
             <PhoneCall className="w-4 h-4" />
