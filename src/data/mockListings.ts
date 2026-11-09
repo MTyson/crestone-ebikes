@@ -13,9 +13,12 @@ export const INITIAL_LISTINGS: Listing[] = [
       'Built for Crestone dirt roads and sand patches! 26" x 4" Kenda Juggernaut fat tires with FlatOut sealant already installed. Includes rear cargo rack, cedar crate, front headlight, and original charger. Wade just tuned the hydraulic brakes and trued the rear wheel last month.',
     image_url:
       'https://images.unsplash.com/photo-1571068316344-75bc76f77890?auto=format&fit=crop&w=1000&q=80',
+    ceb_approved: true,
     wade_inspected: true,
+    inspection_note:
+      'Battery health tested at 94% capacity under load. Fresh brake pads, controller connectors dielectric-greased against valley dust.',
     wade_note:
-      'Battery health tested at 94% capacity under load. Fresh brake pads, controller connectors dialectric-greased against valley dust.',
+      'Battery health tested at 94% capacity under load. Fresh brake pads, controller connectors dielectric-greased against valley dust.',
     status: 'active',
     brand: 'Rad Power Bikes',
     motor_watts: '750W Geared Hub',
@@ -40,7 +43,10 @@ export const INITIAL_LISTINGS: Listing[] = [
       'Super smooth torque sensor pedaling that climbs up toward North Crestone Creek trailhead without breaking a sweat. Step-through frame in Camouflage Green (Size Regular, fits 5\'3" to 6\'0"). Comes with fenders, integrated rear turn signals, and a suspension seatpost for washboard roads.',
     image_url:
       'https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?auto=format&fit=crop&w=1000&q=80',
+    ceb_approved: true,
     wade_inspected: true,
+    inspection_note:
+      'Checked over in the shop last week — cells are balanced to 0.01V and drivetrain has almost zero wear.',
     wade_note:
       'Checked over in the shop last week — cells are balanced to 0.01V and drivetrain has almost zero wear.',
     status: 'active',
@@ -67,7 +73,10 @@ export const INITIAL_LISTINGS: Listing[] = [
       'Custom backcountry mule built together with Wade in his shop. Chromoly steel touring frame paired with a bulletproof Bafang 1000W mid-drive motor so you can use all 11 gears on steep mountain grades. 52V Shark battery pack, Jones H-Bar handlebars, and tubeless 27.5 x 2.8 trail tires.',
     image_url:
       'https://images.unsplash.com/photo-1485965120184-e220f721d03e?auto=format&fit=crop&w=1000&q=80',
+    ceb_approved: true,
     wade_inspected: true,
+    inspection_note:
+      'Custom mid-drive build programmed on the shop bench. Gentle throttle ramp, strong hill-climbing profile, freshly greased planetary gears.',
     wade_note:
       'I helped build and program the controller on this one. Gentle throttle ramp, strong hill-climbing profile, freshly greased planetary gears.',
     status: 'active',
@@ -94,7 +103,10 @@ export const INITIAL_LISTINGS: Listing[] = [
       'Universal 48V Hailong shark-style battery pack with mounting cradle and 2 keys. Great as a spare range-extender battery or replacement for a tired 48V pack. Load-tested on Wade’s bench analyzer and holds 16.4Ah actual capacity.',
     image_url:
       'https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=1000&q=80',
+    ceb_approved: true,
     wade_inspected: true,
+    inspection_note:
+      'Bench load-tested at 10A continuous discharge. Healthy BMS, XT60 discharge lead ready to wire to your bike.',
     wade_note:
       'Bench load-tested at 10A continuous discharge. Healthy BMS, XT60 discharge lead ready to wire to your bike.',
     status: 'active',
@@ -116,6 +128,7 @@ export const INITIAL_LISTINGS: Listing[] = [
       'Folds up to fit in the back of a Subaru for trips into Salida or Alamosa, and zips down to the Crestone Mercantile easily. Has some cosmetic scuffs on the rack and needs a rear tire soon, but motor and battery run strong. Priced to move!',
     image_url:
       'https://images.unsplash.com/photo-1507035895480-2b3156c31fc8?auto=format&fit=crop&w=1000&q=80',
+    ceb_approved: false,
     wade_inspected: false,
     status: 'active',
     brand: 'Lectric',
@@ -141,6 +154,7 @@ export const INITIAL_LISTINGS: Listing[] = [
       'Haul water jugs, firewood, groceries from town, or camping gear behind any e-bike. Includes the heavy-duty 12mm thru-axle / hub-nut adapter for fat-tire electric bikes. Used only 4 times.',
     image_url:
       'https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&w=1000&q=80',
+    ceb_approved: false,
     wade_inspected: false,
     status: 'active',
     seller_name: 'Elena R.',

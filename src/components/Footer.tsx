@@ -44,11 +44,10 @@ export const Footer: React.FC<FooterProps> = ({ onOpenPostModal, onOpenDonateMod
                 <ShieldCheck className="w-5 h-5" />
               </div>
               <h3 className="font-serif-display text-lg font-bold text-stone-900">
-                2. Optional Checkup at Wade’s Bench
+                2. Optional CEB Approved Checkup
               </h3>
               <p className="text-sm text-stone-600 mt-2 leading-relaxed">
-                Want extra peace of mind? Bring the bike by Wade’s workshop in Crestone so he can
-                load-test the battery and check the brakes for a “Wade Inspected” badge.
+                Want extra buyer confidence? Bring your e-bike by the workshop in Crestone for battery load-testing and brake inspection to receive the official “CEB Approved” certification badge.
               </p>
             </div>
 

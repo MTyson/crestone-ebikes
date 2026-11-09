@@ -2,7 +2,7 @@ import { supabase, isSupabaseConfigured } from '../lib/supabase';
 import { INITIAL_LISTINGS } from '../data/mockListings';
 import { AppUser, Listing, ListingStatus, NewListingInput } from '../types/listing';
 
-const STORAGE_KEY = 'crestone_ebikes_listings_v1';
+const STORAGE_KEY = 'crestone_ebikes_listings_v2';
 const USER_STORAGE_KEY = 'crestone_ebikes_user_v1';
 
 /**

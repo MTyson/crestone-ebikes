@@ -94,10 +94,10 @@ export const ListingDetailModal: React.FC<ListingDetailModalProps> = ({
                 <span className="px-3 py-1 rounded-lg bg-stone-100 text-stone-800 text-xs font-bold">
                   Condition: {listing.condition}
                 </span>
-                {listing.wade_inspected && (
-                  <span className="inline-flex items-center gap-1 px-3 py-1 rounded-lg bg-emerald-900 text-amber-300 text-xs font-bold">
+                {(listing.ceb_approved ?? listing.wade_inspected) && (
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-emerald-900 text-amber-300 text-xs font-bold shadow-xs">
                     <ShieldCheck className="w-3.5 h-3.5" />
-                    Wade Inspected
+                    CEB Approved
                   </span>
                 )}
               </div>
@@ -116,17 +116,22 @@ export const ListingDetailModal: React.FC<ListingDetailModalProps> = ({
             </div>
           </div>
 
-          {/* Wade's Bench Note (if present) */}
-          {listing.wade_inspected && (
+          {/* CEB Approved Bench Report */}
+          {(listing.ceb_approved ?? listing.wade_inspected) && (
             <div className="p-4 sm:p-5 rounded-2xl bg-emerald-950 text-emerald-50 border border-emerald-800 flex items-start gap-3.5">
               <ShieldCheck className="w-6 h-6 text-amber-400 shrink-0 mt-0.5" />
               <div>
-                <h4 className="font-serif-display font-bold text-amber-300 text-base">
-                  Wade’s Workshop Inspection Note
-                </h4>
+                <div className="flex items-center gap-2">
+                  <h4 className="font-serif-display font-bold text-amber-300 text-base">
+                    Crestone E-Bike (CEB) Approved Report
+                  </h4>
+                  <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-emerald-900 text-emerald-200 border border-emerald-700/60">
+                    Bench Verified
+                  </span>
+                </div>
                 <p className="text-sm text-emerald-100 mt-1 leading-relaxed">
-                  {listing.wade_note ||
-                    'Checked on Wade’s repair stand in Crestone — battery load-tested, brakes inspected, and drivetrain verified ready to ride.'}
+                  {listing.inspection_note || listing.wade_note ||
+                    'Checked on the shop repair bench in Crestone — battery load-tested, electrical diagnostics verified, and drivetrain inspected trail-ready.'}
                 </p>
               </div>
             </div>

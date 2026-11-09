@@ -8,6 +8,7 @@ import {
   Video,
   CheckCircle2,
   PhoneCall,
+  ShieldCheck,
 } from 'lucide-react';
 
 export const MeetWadeSection: React.FC = () => {
@@ -70,32 +71,40 @@ export const MeetWadeSection: React.FC = () => {
             <div className="relative h-80 sm:h-96 overflow-hidden">
               <img
                 src="/images/wade-workshop.jpg"
-                alt="Wade inside his Crestone e-bike workshop diagnosing a motor and battery on the repair stand"
+                alt="Wade inside his Crestone e-bike workshop leaning on his workbench surrounded by bikes, parts, and tools"
                 className="w-full h-full object-cover object-center"
               />
               <div className="absolute top-4 left-4">
                 <span className="px-3 py-1 rounded-full text-xs font-bold bg-stone-950/85 text-amber-300 border border-amber-400/30 backdrop-blur-xs">
-                  🔧 Inside Wade’s Repair Bench
+                  🔧 Inside Wade’s Workshop &amp; Repair Bench
                 </span>
               </div>
             </div>
             <div className="p-6 sm:p-7 flex-1 flex flex-col justify-between bg-stone-950/60">
               <div>
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-emerald-950/90 border border-emerald-600/40 text-emerald-300 text-xs font-semibold mb-3">
+                  <ShieldCheck className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                  <span>LEVA-Certified Light Electric Vehicle Technician</span>
+                </div>
                 <h3 className="font-serif-display text-2xl font-bold text-white">
                   Real Diagnostics — Mechanical &amp; Electrical
                 </h3>
                 <p className="text-stone-300 text-sm sm:text-base mt-2 leading-relaxed">
                   Most e-bike problems come down to a mystery error code, a loose phase-wire pin, a
-                  worn brake sensor, or a tired battery cell group. Instead of guessing and
-                  swapping expensive parts, Wade puts your bike on the stand, hooks up the
-                  multimeter and load tester, and finds out what’s actually going on.
+                  worn brake sensor, or a tired battery cell group. Trained in classic Sutherland bicycle
+                  mechanics and certified by the Light Electric Vehicle Association (LEVA), Wade puts
+                  your bike on the stand, hooks up the multimeter and load tester, and finds out what’s
+                  actually going on.
                 </p>
               </div>
               <div className="mt-5 pt-4 border-t border-stone-800/80 flex flex-wrap items-center gap-4 text-xs text-stone-400">
                 <span className="inline-flex items-center gap-1.5 text-emerald-300 font-medium">
-                  <CheckCircle2 className="w-4 h-4" /> Pre-purchase inspections for buyers &amp; sellers
+                  <CheckCircle2 className="w-4 h-4" /> LEVA-Certified diagnostics &amp; wiring
                 </span>
                 <span className="inline-flex items-center gap-1.5 text-amber-300 font-medium">
+                  <CheckCircle2 className="w-4 h-4" /> Pre-purchase inspections for buyers &amp; sellers
+                </span>
+                <span className="inline-flex items-center gap-1.5 text-sky-300 font-medium">
                   <CheckCircle2 className="w-4 h-4" /> Custom mid-drive &amp; hub conversions
                 </span>
               </div>
@@ -105,15 +114,15 @@ export const MeetWadeSection: React.FC = () => {
           {/* Second Photo: Wade Outside the Shop + Video Interview Back-Burner Card */}
           <div className="lg:col-span-5 flex flex-col gap-6">
             <div className="rounded-3xl overflow-hidden bg-stone-950 border border-stone-800 flex-1 flex flex-col">
-              <div className="relative h-60 overflow-hidden">
+              <div className="relative h-64 sm:h-72 overflow-hidden">
                 <img
-                  src="/images/wade-shop-front.jpg"
-                  alt="Wade outside Crestone E-Bikes shop with mountain e-bikes"
-                  className="w-full h-full object-cover object-top"
+                  src="/images/wade-shop-face.jpg"
+                  alt="Wade smiling proudly beside the hand-carved e-Bike Crestone wooden sign outside his shop"
+                  className="w-full h-full object-cover object-center"
                 />
                 <div className="absolute top-4 left-4">
                   <span className="px-3 py-1 rounded-full text-xs font-bold bg-stone-950/85 text-emerald-300 border border-emerald-400/30 backdrop-blur-xs">
-                    🏔️ Out Front at the Shop
+                    🏔️ Outside the "e-Bike Crestone" Shop
                   </span>
                 </div>
               </div>

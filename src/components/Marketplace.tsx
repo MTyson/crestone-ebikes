@@ -25,7 +25,7 @@ export const Marketplace: React.FC<MarketplaceProps> = ({
 }) => {
   const [selectedCategory, setSelectedCategory] = useState<'all' | ListingCategory>('all');
   const [searchQuery, setSearchQuery] = useState('');
-  const [onlyWadeInspected, setOnlyWadeInspected] = useState(false);
+  const [onlyCebApproved, setOnlyCebApproved] = useState(false);
   const [sortBy, setSortBy] = useState<'newest' | 'price-asc' | 'price-desc'>('newest');
 
   const filteredListings = useMemo(() => {
@@ -34,7 +34,7 @@ export const Marketplace: React.FC<MarketplaceProps> = ({
         if (selectedCategory !== 'all' && item.category !== selectedCategory) {
           return false;
         }
-        if (onlyWadeInspected && !item.wade_inspected) {
+        if (onlyCebApproved && !(item.ceb_approved ?? item.wade_inspected)) {
           return false;
         }
         if (searchQuery.trim()) {
@@ -52,7 +52,7 @@ export const Marketplace: React.FC<MarketplaceProps> = ({
         if (sortBy === 'price-desc') return b.price - a.price;
         return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
       });
-  }, [listings, selectedCategory, searchQuery, onlyWadeInspected, sortBy]);
+  }, [listings, selectedCategory, searchQuery, onlyCebApproved, sortBy]);
 
   const categories: {
     id: 'all' | ListingCategory;
@@ -129,15 +129,15 @@ export const Marketplace: React.FC<MarketplaceProps> = ({
           </div>
 
           <div className="md:col-span-3 flex items-center">
-            <label className="inline-flex items-center gap-2.5 text-sm font-medium text-stone-700 cursor-pointer select-none px-3 py-2 rounded-xl hover:bg-stone-50 w-full border border-stone-200/80">
+            <label className="inline-flex items-center gap-2.5 text-sm font-medium text-stone-700 cursor-pointer select-none px-3 py-2 rounded-xl hover:bg-stone-50 w-full border border-stone-200/80" title="Crestone E-Bike Approved">
               <input
                 type="checkbox"
-                checked={onlyWadeInspected}
-                onChange={(e) => setOnlyWadeInspected(e.target.checked)}
+                checked={onlyCebApproved}
+                onChange={(e) => setOnlyCebApproved(e.target.checked)}
                 className="w-4 h-4 rounded accent-emerald-800"
               />
               <ShieldCheck className="w-4 h-4 text-emerald-800 shrink-0" />
-              <span className="truncate">Wade-Inspected Only</span>
+              <span className="truncate">CEB Approved Only</span>
             </label>
           </div>
 
@@ -171,7 +171,7 @@ export const Marketplace: React.FC<MarketplaceProps> = ({
             onClick={() => {
               setSelectedCategory('all');
               setSearchQuery('');
-              setOnlyWadeInspected(false);
+              setOnlyCebApproved(false);
             }}
             className="mt-4 px-4 py-2 rounded-xl bg-stone-900 text-white text-xs font-semibold hover:bg-stone-800 cursor-pointer"
           >

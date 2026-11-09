@@ -15,8 +15,10 @@ export interface Listing {
   location: string;
   description: string;
   image_url: string;
-  wade_inspected: boolean;
-  wade_note?: string;
+  ceb_approved?: boolean;
+  wade_inspected?: boolean; // backwards compatibility alias
+  inspection_note?: string;
+  wade_note?: string; // backwards compatibility alias
   status: ListingStatus;
 
   // Optional e-bike specs
@@ -42,7 +44,9 @@ export interface NewListingInput {
   location: string;
   description: string;
   image_url: string;
-  wade_inspected: boolean;
+  ceb_approved?: boolean;
+  wade_inspected?: boolean;
+  inspection_note?: string;
   wade_note?: string;
   brand?: string;
   motor_watts?: string;

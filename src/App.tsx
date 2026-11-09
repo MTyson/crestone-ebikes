@@ -49,7 +49,7 @@ export function App() {
   };
 
   const totalActiveCount = listings.filter((l) => l.status === 'active').length;
-  const wadeInspectedCount = listings.filter((l) => l.wade_inspected).length;
+  const cebApprovedCount = listings.filter((l) => l.ceb_approved ?? l.wade_inspected).length;
 
   return (
     <div className="min-h-screen flex flex-col bg-stone-50 text-stone-900">
@@ -64,7 +64,8 @@ export function App() {
       <main className="flex-1">
         <Hero
           totalActiveCount={totalActiveCount}
-          wadeInspectedCount={wadeInspectedCount}
+          cebApprovedCount={cebApprovedCount}
+          wadeInspectedCount={cebApprovedCount}
           onOpenPostModal={() => setIsPostModalOpen(true)}
           onOpenDonateModal={() => setIsDonateModalOpen(true)}
         />

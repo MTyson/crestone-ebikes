@@ -3,17 +3,49 @@ import { ArrowDownRight, PlusCircle, ShieldCheck, Wrench, Mountain, Heart } from
 
 interface HeroProps {
   totalActiveCount: number;
-  wadeInspectedCount: number;
+  cebApprovedCount: number;
+  wadeInspectedCount?: number;
   onOpenPostModal: () => void;
   onOpenDonateModal: () => void;
 }
 
 export const Hero: React.FC<HeroProps> = ({
   totalActiveCount,
+  cebApprovedCount,
   wadeInspectedCount,
   onOpenPostModal,
   onOpenDonateModal,
 }) => {
+  const renderWadeCard = () => (
+    <div className="relative rounded-3xl overflow-hidden bg-stone-900 shadow-xl ring-1 ring-stone-900/10 group">
+      <img
+        src="/images/wade-hero-front.jpg"
+        alt="Wade smiling proudly beside the hand-carved e-Bike Crestone wooden sign outside his shop"
+        className="w-full h-[360px] sm:h-[440px] lg:h-[490px] object-cover object-[center_20%] group-hover:scale-[1.02] transition-transform duration-500"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-stone-950/90 via-stone-950/20 to-transparent" />
+
+      <div className="absolute top-4 left-4">
+        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-300/95 text-stone-950 shadow-sm">
+          📍 Wade &amp; The "e-Bike Crestone" Shop
+        </span>
+      </div>
+
+      <div className="absolute bottom-0 inset-x-0 p-5 sm:p-6 text-white">
+        <p className="text-xs uppercase tracking-wider text-amber-300 font-bold mb-1">
+          Meet the Owner &amp; Mechanic
+        </p>
+        <p className="font-serif-display text-xl sm:text-2xl font-bold leading-snug">
+          Wade outside his Crestone workshop
+        </p>
+        <p className="text-xs sm:text-sm text-stone-200 mt-1">
+          Have an e-bike you want checked before buying or selling? Swing by the shop and put
+          it on the stand.
+        </p>
+      </div>
+    </div>
+  );
+
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-stone-100 via-stone-50 to-stone-50 pt-8 pb-16 lg:pt-14 lg:pb-22 border-b border-stone-200/80">
       {/* Subtle Decorative Mountain Lines */}
@@ -42,6 +74,11 @@ export const Hero: React.FC<HeroProps> = ({
               <strong className="text-stone-900">Wade’s workshop</strong>.
             </p>
 
+            {/* Prominent Front & Center on Mobile: Photo of Wade appears right here */}
+            <div className="lg:hidden pt-1 pb-1">
+              {renderWadeCard()}
+            </div>
+
             {/* Wade's Signature Quote Card */}
             <blockquote className="relative p-5 sm:p-6 rounded-2xl bg-white border-l-4 border-amber-500 shadow-sm ring-1 ring-stone-200/80">
               <p className="font-serif-display italic text-xl sm:text-2xl text-stone-900 font-medium">
@@ -55,7 +92,7 @@ export const Hero: React.FC<HeroProps> = ({
                   href="#wade-workshop"
                   className="text-emerald-800 font-semibold hover:underline inline-flex items-center gap-1"
                 >
-                  Read how Wade fixes bikes &rarr;
+                  Explore CEB diagnostics &amp; repairs &rarr;
                 </a>
               </footer>
             </blockquote>
@@ -85,7 +122,7 @@ export const Hero: React.FC<HeroProps> = ({
                 <ShieldCheck className="w-5 h-5 text-emerald-700 shrink-0 mt-0.5" />
                 <div>
                   <span className="font-bold text-stone-900 block">
-                    {wadeInspectedCount} Wade-Inspected
+                    {cebApprovedCount ?? wadeInspectedCount} CEB Approved
                   </span>
                   Load-tested batteries &amp; brakes
                 </div>
@@ -112,35 +149,9 @@ export const Hero: React.FC<HeroProps> = ({
             </div>
           </div>
 
-          {/* Right Column: Wade in front of his e-bike shop */}
-          <div className="lg:col-span-5">
-            <div className="relative rounded-3xl overflow-hidden bg-stone-900 shadow-xl ring-1 ring-stone-900/10 group">
-              <img
-                src="/images/wade-shop-front.jpg"
-                alt="Wade standing in front of Crestone E-Bikes shop with the Sangre de Cristo mountains behind him"
-                className="w-full h-[420px] sm:h-[480px] object-cover object-center group-hover:scale-[1.02] transition-transform duration-500"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-stone-950/90 via-stone-950/25 to-transparent" />
-
-              <div className="absolute top-4 left-4">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-300/95 text-stone-950 shadow-sm">
-                  📍 Wade’s Shop — Crestone, CO
-                </span>
-              </div>
-
-              <div className="absolute bottom-0 inset-x-0 p-6 text-white">
-                <p className="text-xs uppercase tracking-wider text-amber-300 font-bold mb-1">
-                  Meet the Owner
-                </p>
-                <p className="font-serif-display text-xl font-bold leading-snug">
-                  Wade in front of the Crestone E-Bikes shop
-                </p>
-                <p className="text-sm text-stone-200 mt-1">
-                  Have a bike you want checked before buying or selling? Swing by the shop and put
-                  it on the stand.
-                </p>
-              </div>
-            </div>
+          {/* Right Column: Wade in front of his e-bike shop (Desktop only) */}
+          <div className="hidden lg:block lg:col-span-5">
+            {renderWadeCard()}
           </div>
         </div>
       </div>

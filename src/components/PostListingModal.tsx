@@ -45,7 +45,7 @@ export const PostListingModal: React.FC<PostListingModalProps> = ({
   const [location, setLocation] = useState('Baca Grande — Chalets I');
   const [description, setDescription] = useState('');
   const [imageUrl, setImageUrl] = useState(PRESET_IMAGES[0].url);
-  const [wadeInspected, setWadeInspected] = useState(false);
+  const [cebApproved, setCebApproved] = useState(false);
 
   // Optional E-Bike specs
   const [brand, setBrand] = useState('');
@@ -79,7 +79,8 @@ export const PostListingModal: React.FC<PostListingModalProps> = ({
         location: location.trim() || 'Crestone / Baca Grande',
         description: description.trim(),
         image_url: imageUrl.trim() || PRESET_IMAGES[0].url,
-        wade_inspected: wadeInspected,
+        ceb_approved: cebApproved,
+        wade_inspected: cebApproved,
         brand: brand.trim() || undefined,
         motor_watts: motorWatts.trim() || undefined,
         battery_spec: batterySpec.trim() || undefined,
@@ -308,21 +309,21 @@ export const PostListingModal: React.FC<PostListingModalProps> = ({
             </div>
           </div>
 
-          {/* Wade Inspected Checkbox */}
+          {/* CEB Approved Checkbox */}
           <label className="flex items-start gap-3 p-3.5 rounded-xl bg-emerald-50/70 border border-emerald-200 cursor-pointer">
             <input
               type="checkbox"
-              checked={wadeInspected}
-              onChange={(e) => setWadeInspected(e.target.checked)}
+              checked={cebApproved}
+              onChange={(e) => setCebApproved(e.target.checked)}
               className="w-4 h-4 mt-0.5 rounded accent-emerald-800"
             />
             <div className="text-xs sm:text-sm">
               <span className="font-bold text-emerald-950 flex items-center gap-1.5">
                 <ShieldCheck className="w-4 h-4 text-emerald-800" />
-                Wade has inspected or serviced this bike/battery at his shop
+                CEB Approved — Inspected or serviced at the Crestone E-Bike workshop
               </span>
               <span className="text-stone-600 block mt-0.5">
-                Check this if Wade has already load-tested the battery or tuned this bike.
+                Check this if your e-bike or battery has received a bench diagnostic or safety inspection at the workshop.
               </span>
             </div>
           </label>
