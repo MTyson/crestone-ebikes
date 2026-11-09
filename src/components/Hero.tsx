@@ -25,7 +25,7 @@ export const Hero: React.FC<HeroProps> = ({
 
       <div className="absolute top-4 left-4">
         <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-300/95 text-stone-950 shadow-sm">
-          📍 Wade &amp; The "e-Bike Crestone" Shop
+          📍 Wade &amp; "e-Bike Crestone"
         </span>
       </div>
 
@@ -34,11 +34,11 @@ export const Hero: React.FC<HeroProps> = ({
           Meet the Owner &amp; Mechanic
         </p>
         <p className="font-serif-display text-xl sm:text-2xl font-bold leading-snug">
-          Wade outside his Crestone workshop
+          Wade with his hand-carved shop sign
         </p>
         <p className="text-xs sm:text-sm text-stone-200 mt-1">
-          Have an e-bike you want checked before buying or selling? Swing by the shop and put
-          it on the stand.
+          Have an e-bike you want checked before buying or selling? Connect with Wade to schedule
+          a checkup or tune-up.
         </p>
       </div>
     </div>

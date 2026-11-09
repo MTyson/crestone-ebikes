@@ -47,7 +47,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenPostModal, onOpenDonateMod
                 2. Optional CEB Approved Checkup
               </h3>
               <p className="text-sm text-stone-600 mt-2 leading-relaxed">
-                Want extra buyer confidence? Bring your e-bike by the workshop in Crestone for battery load-testing and brake inspection to receive the official “CEB Approved” certification badge.
+                Want extra buyer confidence? Schedule a checkup with Wade for battery load-testing and brake inspection to receive the official “CEB Approved” certification badge.
               </p>
             </div>
 

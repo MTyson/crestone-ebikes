@@ -122,7 +122,7 @@ export const MeetWadeSection: React.FC = () => {
                 />
                 <div className="absolute top-4 left-4">
                   <span className="px-3 py-1 rounded-full text-xs font-bold bg-stone-950/85 text-emerald-300 border border-emerald-400/30 backdrop-blur-xs">
-                    🏔️ Outside the "e-Bike Crestone" Shop
+                    🏔️ Wade with his "e-Bike Crestone" Sign
                   </span>
                 </div>
               </div>
@@ -131,7 +131,7 @@ export const MeetWadeSection: React.FC = () => {
                   Get the “Wade Inspected” Badge on Your Listing
                 </h3>
                 <p className="text-sm text-stone-300 mt-1.5 leading-relaxed">
-                  Selling your bike on Crestone E-Bike? Roll it by Wade’s shop for a quick safety
+                  Selling your bike on Crestone E-Bike? Connect with Wade to schedule a quick safety
                   and battery checkup so buyers know the battery holds a real charge and the brakes
                   are trail-ready.
                 </p>
@@ -185,16 +185,24 @@ export const MeetWadeSection: React.FC = () => {
               Need an e-bike tune-up, battery test, or conversion consult?
             </h4>
             <p className="text-sm text-emerald-200/90 mt-0.5">
-              Reach out to Wade directly to schedule bench time in Crestone.
+              Call or text Wade directly at <strong className="text-white">(719) 588-9246</strong> to schedule an appointment.
             </p>
           </div>
-          <a
-            href="mailto:wade@crestoneebike.com?subject=E-Bike%20Repair%20or%20Inspection%20in%20Crestone"
-            className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-amber-400 hover:bg-amber-300 text-stone-950 font-bold text-sm transition-colors shrink-0"
-          >
-            <PhoneCall className="w-4 h-4" />
-            <span>Contact Wade’s Workshop</span>
-          </a>
+          <div className="flex flex-wrap items-center gap-2.5 shrink-0">
+            <a
+              href="tel:7195889246"
+              className="inline-flex items-center gap-2 px-4 sm:px-5 py-3 rounded-xl bg-amber-400 hover:bg-amber-300 text-stone-950 font-bold text-sm transition-colors cursor-pointer"
+            >
+              <PhoneCall className="w-4 h-4" />
+              <span>Call (719) 588-9246</span>
+            </a>
+            <a
+              href="sms:7195889246"
+              className="inline-flex items-center gap-2 px-4 sm:px-5 py-3 rounded-xl bg-stone-900 hover:bg-stone-800 text-amber-300 border border-amber-400/40 font-bold text-sm transition-colors cursor-pointer"
+            >
+              <span>Text Wade</span>
+            </a>
+          </div>
         </div>
       </div>
     </section>

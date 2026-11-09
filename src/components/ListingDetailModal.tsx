@@ -387,8 +387,7 @@ export const ListingDetailModal: React.FC<ListingDetailModalProps> = ({
             )}
 
             <p className="text-xs text-stone-600">
-              💡 <strong>Local Tip:</strong> You’re welcome to meet at the Crestone E-Bike shop for
-              a test ride or battery load check!
+              💡 <strong>Local Tip:</strong> Great public spots for test rides include the Crestone Town Hall parking lot, the Mercantile, or the Elephant Cloud patio!
             </p>
           </div>
 

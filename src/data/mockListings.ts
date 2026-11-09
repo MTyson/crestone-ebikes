@@ -89,7 +89,7 @@ export const INITIAL_LISTINGS: Listing[] = [
     category: 'battery',
     price: 260,
     condition: 'Good',
-    location: 'Crestone — Wade’s Shop Bench',
+    location: 'Crestone (Pickup by Appointment)',
     description:
       'Universal 48V Hailong shark-style battery pack with mounting cradle and 2 keys. Great as a spare range-extender battery or replacement for a tired 48V pack. Load-tested on Wade’s bench analyzer and holds 16.4Ah actual capacity.',
     image_url:
@@ -99,9 +99,9 @@ export const INITIAL_LISTINGS: Listing[] = [
       'Bench load-tested at 10A continuous discharge. Healthy BMS, XT60 discharge lead ready to wire to your bike.',
     status: 'active',
     battery_spec: '48V 17.5Ah (840Wh)',
-    seller_name: 'Wade (Shop Consignment)',
-    seller_email: 'wade@crestoneebike.com',
-    seller_phone: '(719) 555-0101',
+    seller_name: 'Wade (Local Consignment)',
+    seller_email: '',
+    seller_phone: '(719) 588-9246',
     preferred_contact: 'Text or Call',
   },
   {
