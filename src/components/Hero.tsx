@@ -4,7 +4,6 @@ import { ArrowDownRight, PlusCircle, ShieldCheck, Wrench, Mountain, Heart } from
 interface HeroProps {
   totalActiveCount: number;
   cebApprovedCount: number;
-  wadeInspectedCount?: number;
   onOpenPostModal: () => void;
   onOpenDonateModal: () => void;
 }
@@ -12,7 +11,6 @@ interface HeroProps {
 export const Hero: React.FC<HeroProps> = ({
   totalActiveCount,
   cebApprovedCount,
-  wadeInspectedCount,
   onOpenPostModal,
   onOpenDonateModal,
 }) => {
@@ -122,7 +120,7 @@ export const Hero: React.FC<HeroProps> = ({
                 <ShieldCheck className="w-5 h-5 text-emerald-700 shrink-0 mt-0.5" />
                 <div>
                   <span className="font-bold text-stone-900 block">
-                    {cebApprovedCount ?? wadeInspectedCount} CEB Approved
+                    {cebApprovedCount} CEB Approved
                   </span>
                   Load-tested batteries &amp; brakes
                 </div>

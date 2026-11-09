@@ -14,18 +14,27 @@ import { ListingCard } from './ListingCard';
 
 interface MarketplaceProps {
   listings: Listing[];
+  loading: boolean;
+  loadError: string | null;
+  currentUserId: string | null;
+  onRetry: () => void;
   onSelectListing: (listing: Listing) => void;
   onOpenPostModal: () => void;
 }
 
 export const Marketplace: React.FC<MarketplaceProps> = ({
   listings,
+  loading,
+  loadError,
+  currentUserId,
+  onRetry,
   onSelectListing,
   onOpenPostModal,
 }) => {
   const [selectedCategory, setSelectedCategory] = useState<'all' | ListingCategory>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [onlyCebApproved, setOnlyCebApproved] = useState(false);
+  const [onlyMine, setOnlyMine] = useState(false);
   const [sortBy, setSortBy] = useState<'newest' | 'price-asc' | 'price-desc'>('newest');
 
   const filteredListings = useMemo(() => {
@@ -34,7 +43,10 @@ export const Marketplace: React.FC<MarketplaceProps> = ({
         if (selectedCategory !== 'all' && item.category !== selectedCategory) {
           return false;
         }
-        if (onlyCebApproved && !(item.ceb_approved ?? item.wade_inspected)) {
+        if (onlyCebApproved && !item.ceb_approved) {
+          return false;
+        }
+        if (onlyMine && (!currentUserId || item.user_id !== currentUserId)) {
           return false;
         }
         if (searchQuery.trim()) {
@@ -52,7 +64,7 @@ export const Marketplace: React.FC<MarketplaceProps> = ({
         if (sortBy === 'price-desc') return b.price - a.price;
         return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
       });
-  }, [listings, selectedCategory, searchQuery, onlyCebApproved, sortBy]);
+  }, [listings, selectedCategory, searchQuery, onlyCebApproved, onlyMine, currentUserId, sortBy]);
 
   const categories: {
     id: 'all' | ListingCategory;
@@ -156,8 +168,44 @@ export const Marketplace: React.FC<MarketplaceProps> = ({
         </div>
       </div>
 
+      {/* My listings toggle (signed-in users only) */}
+      {currentUserId && (
+        <div className="flex justify-end mb-4">
+          <button
+            type="button"
+            onClick={() => setOnlyMine((v) => !v)}
+            aria-pressed={onlyMine}
+            className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold border transition-colors cursor-pointer ${
+              onlyMine
+                ? 'bg-emerald-800 text-white border-emerald-800'
+                : 'bg-white text-stone-700 border-stone-300 hover:bg-stone-100'
+            }`}
+          >
+            <Package className="w-4 h-4" />
+            <span>{onlyMine ? 'Showing: My listings' : 'Show only my listings'}</span>
+          </button>
+        </div>
+      )}
+
       {/* Listings Grid */}
-      {filteredListings.length === 0 ? (
+      {loading ? (
+        <div className="text-center py-16 text-stone-500 text-sm" role="status">
+          Loading bikes &amp; gear…
+        </div>
+      ) : loadError ? (
+        <div className="text-center py-16 px-4 bg-white rounded-2xl border border-rose-200">
+          <h3 className="font-serif-display text-xl font-bold text-stone-800">
+            We couldn’t load the listings
+          </h3>
+          <p className="text-sm text-stone-600 mt-1 max-w-md mx-auto">{loadError}</p>
+          <button
+            onClick={onRetry}
+            className="mt-4 px-4 py-2 rounded-xl bg-stone-900 text-white text-xs font-semibold hover:bg-stone-800 cursor-pointer"
+          >
+            Try again
+          </button>
+        </div>
+      ) : filteredListings.length === 0 ? (
         <div className="text-center py-16 px-4 bg-white rounded-2xl border border-dashed border-stone-300">
           <Bike className="w-12 h-12 text-stone-400 mx-auto mb-3" />
           <h3 className="font-serif-display text-xl font-bold text-stone-800">
@@ -172,6 +220,7 @@ export const Marketplace: React.FC<MarketplaceProps> = ({
               setSelectedCategory('all');
               setSearchQuery('');
               setOnlyCebApproved(false);
+              setOnlyMine(false);
             }}
             className="mt-4 px-4 py-2 rounded-xl bg-stone-900 text-white text-xs font-semibold hover:bg-stone-800 cursor-pointer"
           >

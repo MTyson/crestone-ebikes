@@ -1,41 +1,22 @@
-import React, { useState } from 'react';
-import { X, PlusCircle, ShieldCheck, Sparkles, Mail } from 'lucide-react';
-import { AppUser, ListingCategory, ListingCondition, NewListingInput } from '../types/listing';
+import React, { useEffect, useMemo, useState } from 'react';
+import { X, PlusCircle, Sparkles, ImagePlus, Trash2, Loader2 } from 'lucide-react';
+import { AppUser, ListingCategory, ListingCondition, NewListingForm, PreferredContact } from '../types/listing';
+
+const MAX_PHOTOS = 4;
 
 interface PostListingModalProps {
   isOpen: boolean;
   currentUser: AppUser | null;
   onClose: () => void;
-  onSubmitListing: (input: NewListingInput) => Promise<void>;
-  onOpenAuthModal: () => void;
+  onSubmitListing: (input: NewListingForm, photos: File[]) => Promise<void>;
   onOpenDonateModal: () => void;
 }
-
-const PRESET_IMAGES: { label: string; url: string }[] = [
-  {
-    label: 'Fat-Tire Mountain E-Bike',
-    url: 'https://images.unsplash.com/photo-1571068316344-75bc76f77890?auto=format&fit=crop&w=1000&q=80',
-  },
-  {
-    label: 'Step-Through Cruiser E-Bike',
-    url: 'https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?auto=format&fit=crop&w=1000&q=80',
-  },
-  {
-    label: 'Backcountry / Commuter Bike',
-    url: 'https://images.unsplash.com/photo-1485965120184-e220f721d03e?auto=format&fit=crop&w=1000&q=80',
-  },
-  {
-    label: 'Battery Pack / Charger / Gear',
-    url: 'https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=1000&q=80',
-  },
-];
 
 export const PostListingModal: React.FC<PostListingModalProps> = ({
   isOpen,
   currentUser,
   onClose,
   onSubmitListing,
-  onOpenAuthModal,
   onOpenDonateModal,
 }) => {
   const [title, setTitle] = useState('');
@@ -44,8 +25,7 @@ export const PostListingModal: React.FC<PostListingModalProps> = ({
   const [condition, setCondition] = useState<ListingCondition>('Good');
   const [location, setLocation] = useState('Baca Grande — Chalets I');
   const [description, setDescription] = useState('');
-  const [imageUrl, setImageUrl] = useState(PRESET_IMAGES[0].url);
-  const [cebApproved, setCebApproved] = useState(false);
+  const [photos, setPhotos] = useState<File[]>([]);
 
   // Optional E-Bike specs
   const [brand, setBrand] = useState('');
@@ -53,44 +33,82 @@ export const PostListingModal: React.FC<PostListingModalProps> = ({
   const [batterySpec, setBatterySpec] = useState('');
   const [rangeEstimate, setRangeEstimate] = useState('');
 
-  // Seller details
+  // Seller details (email is prefilled from the signed-in account)
   const [sellerName, setSellerName] = useState(currentUser?.name || '');
   const [sellerEmail, setSellerEmail] = useState(currentUser?.email || '');
   const [sellerPhone, setSellerPhone] = useState('');
-  const [preferredContact, setPreferredContact] = useState<
-    'Text or Call' | 'Email Only' | 'Text or Email'
-  >('Text or Email');
+  const [preferredContact, setPreferredContact] = useState<PreferredContact>('Text or Email');
 
   const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (currentUser?.email) {
+      setSellerEmail((prev) => prev || currentUser.email);
+    }
+  }, [currentUser]);
+
+  const previews = useMemo(() => photos.map((f) => URL.createObjectURL(f)), [photos]);
+  useEffect(() => {
+    return () => previews.forEach((url) => URL.revokeObjectURL(url));
+  }, [previews]);
 
   if (!isOpen) return null;
+
+  const addPhotos = (fileList: FileList | null) => {
+    if (!fileList) return;
+    const images = Array.from(fileList).filter((f) => f.type.startsWith('image/'));
+    setPhotos((prev) => [...prev, ...images].slice(0, MAX_PHOTOS));
+    setError(null);
+  };
+
+  const resetForm = () => {
+    setTitle('');
+    setPrice('');
+    setDescription('');
+    setPhotos([]);
+    setBrand('');
+    setMotorWatts('');
+    setBatterySpec('');
+    setRangeEstimate('');
+    setSellerPhone('');
+    setError(null);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!title.trim() || !price) return;
+    if (photos.length === 0) {
+      setError('Please add at least one photo.');
+      return;
+    }
 
     setSubmitting(true);
+    setError(null);
     try {
-      await onSubmitListing({
-        title: title.trim(),
-        category,
-        price: Number(price),
-        condition,
-        location: location.trim() || 'Crestone / Baca Grande',
-        description: description.trim(),
-        image_url: imageUrl.trim() || PRESET_IMAGES[0].url,
-        ceb_approved: cebApproved,
-        wade_inspected: cebApproved,
-        brand: brand.trim() || undefined,
-        motor_watts: motorWatts.trim() || undefined,
-        battery_spec: batterySpec.trim() || undefined,
-        range_estimate: rangeEstimate.trim() || undefined,
-        seller_name: sellerName.trim() || 'Crestone Neighbor',
-        seller_email: sellerEmail.trim() || currentUser?.email || 'neighbor@crestoneebikes.com',
-        seller_phone: sellerPhone.trim() || undefined,
-        preferred_contact: preferredContact,
-      });
+      await onSubmitListing(
+        {
+          title: title.trim(),
+          category,
+          price: Number(price),
+          condition,
+          location: location.trim() || 'Crestone / Baca Grande',
+          description: description.trim(),
+          brand: brand.trim() || undefined,
+          motor_watts: motorWatts.trim() || undefined,
+          battery_spec: batterySpec.trim() || undefined,
+          range_estimate: rangeEstimate.trim() || undefined,
+          seller_name: sellerName.trim() || 'Crestone Neighbor',
+          seller_email: sellerEmail.trim() || currentUser?.email || '',
+          seller_phone: sellerPhone.trim() || undefined,
+          preferred_contact: preferredContact,
+        },
+        photos
+      );
+      resetForm();
       onClose();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Could not publish your listing.');
     } finally {
       setSubmitting(false);
     }
@@ -118,35 +136,21 @@ export const PostListingModal: React.FC<PostListingModalProps> = ({
           <button
             onClick={onClose}
             className="p-2 rounded-xl text-stone-500 hover:text-stone-900 hover:bg-stone-200/70 transition-colors cursor-pointer"
+            aria-label="Close"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        {/* Form Body */}
         <form onSubmit={handleSubmit} className="overflow-y-auto p-6 space-y-5">
-          {/* Magic Link Auth Prompt Banner if not signed in */}
-          {!currentUser && (
-            <div className="p-4 rounded-2xl bg-amber-50 border border-amber-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-              <div className="text-xs sm:text-sm text-stone-700">
-                <strong className="text-stone-900 block">
-                  Want to edit or mark your listing as sold later?
-                </strong>
-                Sign in with a simple passwordless email link (Supabase Magic Link), or post right
-                now below.
-              </div>
-              <button
-                type="button"
-                onClick={onOpenAuthModal}
-                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-stone-900 text-white text-xs font-semibold hover:bg-stone-800 shrink-0 cursor-pointer"
-              >
-                <Mail className="w-3.5 h-3.5" />
-                <span>Email Magic Link</span>
-              </button>
-            </div>
+          {currentUser && (
+            <p className="text-xs text-stone-500">
+              Signed in as <strong className="text-stone-800">{currentUser.email}</strong>. You can
+              mark your listing sold or delete it any time.
+            </p>
           )}
 
-          {/* Title & Category & Price */}
+          {/* Title & Price */}
           <div className="grid grid-cols-1 sm:grid-cols-12 gap-4">
             <div className="sm:col-span-8">
               <label className="block text-xs font-bold uppercase tracking-wider text-stone-600 mb-1.5">
@@ -155,6 +159,8 @@ export const PostListingModal: React.FC<PostListingModalProps> = ({
               <input
                 type="text"
                 required
+                minLength={3}
+                maxLength={120}
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="e.g., Rad Power RadRunner Plus w/ Passenger Seat"
@@ -170,6 +176,7 @@ export const PostListingModal: React.FC<PostListingModalProps> = ({
                 type="number"
                 required
                 min="0"
+                max="100000"
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
                 placeholder="950"
@@ -217,6 +224,7 @@ export const PostListingModal: React.FC<PostListingModalProps> = ({
               </label>
               <input
                 type="text"
+                maxLength={120}
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
                 placeholder="Town of Crestone / Chalets"
@@ -225,7 +233,7 @@ export const PostListingModal: React.FC<PostListingModalProps> = ({
             </div>
           </div>
 
-          {/* E-Bike Specs (shown for e-bikes or batteries) */}
+          {/* E-Bike Specs */}
           {(category === 'ebike' || category === 'battery') && (
             <div className="p-4 rounded-2xl bg-stone-50 border border-stone-200/90 space-y-3">
               <span className="text-xs font-bold uppercase tracking-wider text-stone-500 block">
@@ -272,6 +280,7 @@ export const PostListingModal: React.FC<PostListingModalProps> = ({
             <textarea
               required
               rows={3}
+              maxLength={4000}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Tell neighbors about the bike, tire sealant, included chargers/racks, or any quirks..."
@@ -279,64 +288,65 @@ export const PostListingModal: React.FC<PostListingModalProps> = ({
             />
           </div>
 
-          {/* Photo URL or Quick Preset */}
+          {/* Photos */}
           <div>
             <label className="block text-xs font-bold uppercase tracking-wider text-stone-600 mb-1.5">
-              Photo URL (or choose a preset photo for prototype testing)
+              Photos * <span className="normal-case font-medium text-stone-500">(up to {MAX_PHOTOS}; the first is the cover)</span>
             </label>
-            <input
-              type="url"
-              value={imageUrl}
-              onChange={(e) => setImageUrl(e.target.value)}
-              placeholder="https://..."
-              className="w-full px-3.5 py-2 rounded-xl border border-stone-300 text-xs mb-2 focus:outline-none focus:border-emerald-700"
-            />
-            <div className="flex flex-wrap gap-1.5">
-              {PRESET_IMAGES.map((preset) => (
-                <button
-                  key={preset.label}
-                  type="button"
-                  onClick={() => setImageUrl(preset.url)}
-                  className={`px-2.5 py-1 rounded-lg text-xs font-medium border cursor-pointer ${
-                    imageUrl === preset.url
-                      ? 'bg-emerald-900 text-white border-emerald-900'
-                      : 'bg-stone-100 text-stone-700 border-stone-200 hover:bg-stone-200'
-                  }`}
+            <div className="flex flex-wrap gap-3">
+              {previews.map((url, idx) => (
+                <div
+                  key={url}
+                  className="relative w-24 h-24 rounded-xl overflow-hidden border border-stone-200 bg-stone-100"
                 >
-                  {preset.label}
-                </button>
+                  <img src={url} alt={`Photo ${idx + 1}`} className="w-full h-full object-cover" />
+                  {idx === 0 && (
+                    <span className="absolute bottom-0 inset-x-0 text-[10px] font-bold text-center bg-stone-950/70 text-white py-0.5">
+                      Cover
+                    </span>
+                  )}
+                  <button
+                    type="button"
+                    onClick={() => setPhotos((prev) => prev.filter((_, i) => i !== idx))}
+                    className="absolute top-1 right-1 p-1 rounded-full bg-stone-950/75 text-white hover:bg-rose-600 cursor-pointer"
+                    aria-label={`Remove photo ${idx + 1}`}
+                  >
+                    <Trash2 className="w-3 h-3" />
+                  </button>
+                </div>
               ))}
+              {photos.length < MAX_PHOTOS && (
+                <label className="w-24 h-24 rounded-xl border-2 border-dashed border-stone-300 hover:border-emerald-700 hover:bg-emerald-50/50 flex flex-col items-center justify-center gap-1 text-stone-500 hover:text-emerald-800 text-xs font-semibold cursor-pointer transition-colors">
+                  <ImagePlus className="w-5 h-5" />
+                  <span>Add photo</span>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    className="hidden"
+                    onChange={(e) => {
+                      addPhotos(e.target.files);
+                      e.target.value = '';
+                    }}
+                  />
+                </label>
+              )}
             </div>
           </div>
-
-          {/* CEB Approved Checkbox */}
-          <label className="flex items-start gap-3 p-3.5 rounded-xl bg-emerald-50/70 border border-emerald-200 cursor-pointer">
-            <input
-              type="checkbox"
-              checked={cebApproved}
-              onChange={(e) => setCebApproved(e.target.checked)}
-              className="w-4 h-4 mt-0.5 rounded accent-emerald-800"
-            />
-            <div className="text-xs sm:text-sm">
-              <span className="font-bold text-emerald-950 flex items-center gap-1.5">
-                <ShieldCheck className="w-4 h-4 text-emerald-800" />
-                CEB Approved — Inspected or serviced at the Crestone E-Bike workshop
-              </span>
-              <span className="text-stone-600 block mt-0.5">
-                Check this if your e-bike or battery has received a bench diagnostic or safety inspection at the workshop.
-              </span>
-            </div>
-          </label>
 
           {/* Seller Contact Info */}
           <div className="pt-2 border-t border-stone-200 space-y-3">
             <span className="text-xs font-bold uppercase tracking-wider text-stone-600 block">
-              Your Contact Details (Shown to Interested Buyers)
+              Your Contact Details
             </span>
+            <p className="text-xs text-stone-500 -mt-1">
+              Not shown on the listing. Buyers see them only after tapping “Show contact info”.
+            </p>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <input
                 type="text"
                 required
+                maxLength={80}
                 value={sellerName}
                 onChange={(e) => setSellerName(e.target.value)}
                 placeholder="Your Name (e.g. Jamie M.) *"
@@ -352,6 +362,7 @@ export const PostListingModal: React.FC<PostListingModalProps> = ({
               />
               <input
                 type="tel"
+                maxLength={40}
                 value={sellerPhone}
                 onChange={(e) => setSellerPhone(e.target.value)}
                 placeholder="Phone (Optional)"
@@ -359,7 +370,7 @@ export const PostListingModal: React.FC<PostListingModalProps> = ({
               />
             </div>
 
-            <div className="flex items-center gap-3 text-xs text-stone-600">
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-stone-600">
               <span className="font-semibold">Preferred Contact:</span>
               {(['Text or Email', 'Text or Call', 'Email Only'] as const).map((opt) => (
                 <label key={opt} className="inline-flex items-center gap-1.5 cursor-pointer">
@@ -376,7 +387,13 @@ export const PostListingModal: React.FC<PostListingModalProps> = ({
             </div>
           </div>
 
-          {/* Submit + Optional Community Donation Nudge */}
+          {error && (
+            <p className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-sm text-rose-700 font-medium">
+              {error}
+            </p>
+          )}
+
+          {/* Submit + Optional Donation Nudge */}
           <div className="pt-4 border-t border-stone-200 flex flex-col sm:flex-row items-center justify-between gap-4">
             <button
               type="button"
@@ -393,9 +410,9 @@ export const PostListingModal: React.FC<PostListingModalProps> = ({
             <button
               type="submit"
               disabled={submitting}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-emerald-800 hover:bg-emerald-700 text-white font-bold text-sm shadow-sm transition-colors cursor-pointer"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-emerald-800 hover:bg-emerald-700 disabled:opacity-70 text-white font-bold text-sm shadow-sm transition-colors cursor-pointer"
             >
-              <PlusCircle className="w-4 h-4" />
+              {submitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <PlusCircle className="w-4 h-4" />}
               <span>{submitting ? 'Publishing...' : 'Publish Listing'}</span>
             </button>
           </div>
@@ -404,4 +421,3 @@ export const PostListingModal: React.FC<PostListingModalProps> = ({
     </div>
   );
 };
-

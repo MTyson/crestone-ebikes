@@ -50,7 +50,7 @@ export const ListingCard: React.FC<ListingCardProps> = ({ listing, onSelect }) =
             {categoryBadge.label}
           </span>
 
-          {(listing.ceb_approved ?? listing.wade_inspected) && (
+          {listing.ceb_approved && (
             <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-bold bg-emerald-900/95 text-amber-300 shadow-sm" title="Crestone E-Bike Approved">
               <ShieldCheck className="w-3.5 h-3.5 text-amber-300" />
               CEB Approved

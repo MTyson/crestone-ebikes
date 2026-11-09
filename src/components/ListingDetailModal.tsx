@@ -13,28 +13,79 @@ import {
   Calendar,
   Tag,
   CheckCircle2,
+  Trash2,
+  Eye,
+  Loader2,
 } from 'lucide-react';
-import { Listing } from '../types/listing';
+import { AppUser, Listing, ListingContact } from '../types/listing';
+import { fetchListingContact } from '../services/listingsService';
 
 interface ListingDetailModalProps {
   listing: Listing | null;
+  currentUser: AppUser | null;
   onClose: () => void;
-  onToggleSold: (id: string) => void;
+  onToggleSold: (listing: Listing) => Promise<void>;
+  onDelete: (listing: Listing) => Promise<void>;
 }
 
+/**
+ * Render with `key={listing.id}` so gallery / contact state resets per listing.
+ */
 export const ListingDetailModal: React.FC<ListingDetailModalProps> = ({
   listing,
+  currentUser,
   onClose,
   onToggleSold,
+  onDelete,
 }) => {
+  const [activeImage, setActiveImage] = useState(0);
+  const [contact, setContact] = useState<ListingContact | null>(null);
+  const [contactLoading, setContactLoading] = useState(false);
+  const [contactError, setContactError] = useState<string | null>(null);
   const [copiedField, setCopiedField] = useState<'phone' | 'email' | null>(null);
+  const [busy, setBusy] = useState(false);
+  const [actionError, setActionError] = useState<string | null>(null);
 
   if (!listing) return null;
+
+  const images =
+    listing.image_urls && listing.image_urls.length > 0 ? listing.image_urls : [listing.image_url];
+  const isOwner = Boolean(currentUser && listing.user_id && listing.user_id === currentUser.id);
+  const isApproved = Boolean(listing.ceb_approved);
+
+  const revealContact = async () => {
+    setContactLoading(true);
+    setContactError(null);
+    try {
+      setContact(await fetchListingContact(listing));
+    } catch (err) {
+      setContactError(err instanceof Error ? err.message : 'Could not load contact info.');
+    } finally {
+      setContactLoading(false);
+    }
+  };
 
   const copyText = (value: string, field: 'phone' | 'email') => {
     navigator.clipboard.writeText(value);
     setCopiedField(field);
     setTimeout(() => setCopiedField(null), 2000);
+  };
+
+  const runOwnerAction = async (action: () => Promise<void>) => {
+    setBusy(true);
+    setActionError(null);
+    try {
+      await action();
+    } catch (err) {
+      setActionError(err instanceof Error ? err.message : 'Something went wrong.');
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const handleDelete = () => {
+    if (!window.confirm('Delete this listing permanently? This cannot be undone.')) return;
+    void runOwnerAction(() => onDelete(listing));
   };
 
   const formattedDate = new Date(listing.created_at).toLocaleDateString('en-US', {
@@ -72,19 +123,38 @@ export const ListingDetailModal: React.FC<ListingDetailModalProps> = ({
 
         {/* Scrollable Content */}
         <div className="overflow-y-auto p-6 sm:p-8 space-y-6">
-          {/* Hero Image + Price Header */}
           <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
-            <div className="md:col-span-6 relative rounded-2xl overflow-hidden bg-stone-100 border border-stone-200">
-              <img
-                src={listing.image_url}
-                alt={listing.title}
-                className="w-full h-64 sm:h-72 object-cover"
-              />
-              {listing.status === 'sold' && (
-                <div className="absolute inset-0 bg-stone-950/60 flex items-center justify-center">
-                  <span className="px-5 py-2 rounded-xl bg-rose-600 text-white font-bold uppercase tracking-widest text-lg shadow-lg">
-                    Sold
-                  </span>
+            {/* Photo gallery */}
+            <div className="md:col-span-6 space-y-2">
+              <div className="relative rounded-2xl overflow-hidden bg-stone-100 border border-stone-200">
+                <img
+                  src={images[Math.min(activeImage, images.length - 1)]}
+                  alt={listing.title}
+                  className="w-full h-64 sm:h-72 object-cover"
+                />
+                {listing.status === 'sold' && (
+                  <div className="absolute inset-0 bg-stone-950/60 flex items-center justify-center">
+                    <span className="px-5 py-2 rounded-xl bg-rose-600 text-white font-bold uppercase tracking-widest text-lg shadow-lg">
+                      Sold
+                    </span>
+                  </div>
+                )}
+              </div>
+              {images.length > 1 && (
+                <div className="flex gap-2">
+                  {images.map((url, idx) => (
+                    <button
+                      key={url}
+                      type="button"
+                      onClick={() => setActiveImage(idx)}
+                      aria-label={`Show photo ${idx + 1}`}
+                      className={`w-16 h-16 rounded-lg overflow-hidden border-2 cursor-pointer ${
+                        idx === activeImage ? 'border-emerald-700' : 'border-transparent opacity-70'
+                      }`}
+                    >
+                      <img src={url} alt="" className="w-full h-full object-cover" />
+                    </button>
+                  ))}
                 </div>
               )}
             </div>
@@ -94,7 +164,7 @@ export const ListingDetailModal: React.FC<ListingDetailModalProps> = ({
                 <span className="px-3 py-1 rounded-lg bg-stone-100 text-stone-800 text-xs font-bold">
                   Condition: {listing.condition}
                 </span>
-                {(listing.ceb_approved ?? listing.wade_inspected) && (
+                {isApproved && (
                   <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-emerald-900 text-amber-300 text-xs font-bold shadow-xs">
                     <ShieldCheck className="w-3.5 h-3.5" />
                     CEB Approved
@@ -110,18 +180,18 @@ export const ListingDetailModal: React.FC<ListingDetailModalProps> = ({
                 ${listing.price.toLocaleString()}
               </div>
 
-              <p className="text-sm sm:text-base text-stone-700 leading-relaxed">
+              <p className="text-sm sm:text-base text-stone-700 leading-relaxed whitespace-pre-line">
                 {listing.description}
               </p>
             </div>
           </div>
 
           {/* CEB Approved Bench Report */}
-          {(listing.ceb_approved ?? listing.wade_inspected) && (
+          {isApproved && (
             <div className="p-4 sm:p-5 rounded-2xl bg-emerald-950 text-emerald-50 border border-emerald-800 flex items-start gap-3.5">
               <ShieldCheck className="w-6 h-6 text-amber-400 shrink-0 mt-0.5" />
               <div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 flex-wrap">
                   <h4 className="font-serif-display font-bold text-amber-300 text-base">
                     Crestone E-Bike (CEB) Approved Report
                   </h4>
@@ -130,7 +200,7 @@ export const ListingDetailModal: React.FC<ListingDetailModalProps> = ({
                   </span>
                 </div>
                 <p className="text-sm text-emerald-100 mt-1 leading-relaxed">
-                  {listing.inspection_note || listing.wade_note ||
+                  {listing.inspection_note ||
                     'Checked on the shop repair bench in Crestone — battery load-tested, electrical diagnostics verified, and drivetrain inspected trail-ready.'}
                 </p>
               </div>
@@ -205,7 +275,7 @@ export const ListingDetailModal: React.FC<ListingDetailModalProps> = ({
             </div>
           )}
 
-          {/* Direct Contact Seller Box */}
+          {/* Contact Seller (click to reveal) */}
           <div className="p-6 rounded-2xl bg-amber-50/90 border border-amber-200 space-y-4">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <div>
@@ -216,33 +286,91 @@ export const ListingDetailModal: React.FC<ListingDetailModalProps> = ({
                   {listing.seller_name} — {listing.location}
                 </h3>
               </div>
-              <span className="px-3 py-1 rounded-full bg-white text-stone-700 text-xs font-semibold border border-amber-300">
-                Prefers: {listing.preferred_contact}
-              </span>
+              {contact && (
+                <span className="px-3 py-1 rounded-full bg-white text-stone-700 text-xs font-semibold border border-amber-300">
+                  Prefers: {contact.preferred_contact}
+                </span>
+              )}
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {listing.seller_phone && (
-                <div className="flex items-center justify-between p-3.5 rounded-xl bg-white border border-stone-200">
-                  <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-lg bg-emerald-100 text-emerald-800 flex items-center justify-center">
-                      <Phone className="w-4 h-4" />
+            {!contact ? (
+              <div className="space-y-2">
+                <button
+                  type="button"
+                  onClick={revealContact}
+                  disabled={contactLoading}
+                  className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-emerald-800 hover:bg-emerald-700 disabled:opacity-70 text-white font-bold text-sm shadow-sm transition-colors cursor-pointer"
+                >
+                  {contactLoading ? (
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  ) : (
+                    <Eye className="w-4 h-4" />
+                  )}
+                  <span>{contactLoading ? 'Loading…' : 'Show contact info'}</span>
+                </button>
+                {contactError && (
+                  <p className="text-xs text-rose-600 font-medium">{contactError}</p>
+                )}
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {contact.seller_phone && (
+                  <div className="flex items-center justify-between p-3.5 rounded-xl bg-white border border-stone-200">
+                    <div className="flex items-center gap-3">
+                      <div className="w-9 h-9 rounded-lg bg-emerald-100 text-emerald-800 flex items-center justify-center">
+                        <Phone className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <span className="text-xs text-stone-500 block">Phone / Text</span>
+                        <a
+                          href={`tel:${contact.seller_phone}`}
+                          className="font-bold text-stone-900 hover:text-emerald-800 text-sm"
+                        >
+                          {contact.seller_phone}
+                        </a>
+                      </div>
                     </div>
-                    <div>
-                      <span className="text-xs text-stone-500 block">Phone / Text</span>
+                    <button
+                      onClick={() => copyText(contact.seller_phone!, 'phone')}
+                      className="p-2 rounded-lg text-stone-500 hover:text-stone-900 hover:bg-stone-100 text-xs font-semibold inline-flex items-center gap-1 cursor-pointer"
+                    >
+                      {copiedField === 'phone' ? (
+                        <>
+                          <Check className="w-3.5 h-3.5 text-emerald-700" />
+                          <span>Copied</span>
+                        </>
+                      ) : (
+                        <>
+                          <Copy className="w-3.5 h-3.5" />
+                          <span>Copy</span>
+                        </>
+                      )}
+                    </button>
+                  </div>
+                )}
+
+                <div className="flex items-center justify-between p-3.5 rounded-xl bg-white border border-stone-200">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className="w-9 h-9 rounded-lg bg-amber-100 text-amber-900 flex items-center justify-center shrink-0">
+                      <Mail className="w-4 h-4" />
+                    </div>
+                    <div className="min-w-0">
+                      <span className="text-xs text-stone-500 block">Email</span>
                       <a
-                        href={`tel:${listing.seller_phone}`}
-                        className="font-bold text-stone-900 hover:text-emerald-800 text-sm"
+                        href={`mailto:${contact.seller_email}?subject=${encodeURIComponent(
+                          `Crestone E-Bikes inquiry: ${listing.title}`
+                        )}`}
+                        className="font-bold text-stone-900 hover:text-emerald-800 text-sm truncate block"
                       >
-                        {listing.seller_phone}
+                        {contact.seller_email}
                       </a>
                     </div>
                   </div>
                   <button
-                    onClick={() => copyText(listing.seller_phone!, 'phone')}
-                    className="p-2 rounded-lg text-stone-500 hover:text-stone-900 hover:bg-stone-100 text-xs font-semibold inline-flex items-center gap-1 cursor-pointer"
+                    onClick={() => copyText(contact.seller_email, 'email')}
+                    className="p-2 rounded-lg text-stone-500 hover:text-stone-900 hover:bg-stone-100 text-xs font-semibold inline-flex items-center gap-1 shrink-0 cursor-pointer"
                   >
-                    {copiedField === 'phone' ? (
+                    {copiedField === 'email' ? (
                       <>
                         <Check className="w-3.5 h-3.5 text-emerald-700" />
                         <span>Copied</span>
@@ -255,62 +383,44 @@ export const ListingDetailModal: React.FC<ListingDetailModalProps> = ({
                     )}
                   </button>
                 </div>
-              )}
+              </div>
+            )}
 
-              <div className="flex items-center justify-between p-3.5 rounded-xl bg-white border border-stone-200">
-                <div className="flex items-center gap-3 min-w-0">
-                  <div className="w-9 h-9 rounded-lg bg-amber-100 text-amber-900 flex items-center justify-center shrink-0">
-                    <Mail className="w-4 h-4" />
-                  </div>
-                  <div className="min-w-0">
-                    <span className="text-xs text-stone-500 block">Email</span>
-                    <a
-                      href={`mailto:${listing.seller_email}?subject=${encodeURIComponent(
-                        `Crestone E-Bikes inquiry: ${listing.title}`
-                      )}`}
-                      className="font-bold text-stone-900 hover:text-emerald-800 text-sm truncate block"
-                    >
-                      {listing.seller_email}
-                    </a>
-                  </div>
-                </div>
+            <p className="text-xs text-stone-600">
+              💡 <strong>Local Tip:</strong> You’re welcome to meet at the Crestone E-Bikes shop for
+              a test ride or battery load check!
+            </p>
+          </div>
+
+          {/* Owner-only controls */}
+          {isOwner && (
+            <div className="p-4 rounded-2xl bg-stone-50 border border-stone-200 space-y-3">
+              <span className="text-xs font-bold uppercase tracking-wider text-stone-500">
+                Your listing
+              </span>
+              <div className="flex flex-wrap items-center gap-2">
                 <button
-                  onClick={() => copyText(listing.seller_email, 'email')}
-                  className="p-2 rounded-lg text-stone-500 hover:text-stone-900 hover:bg-stone-100 text-xs font-semibold inline-flex items-center gap-1 shrink-0 cursor-pointer"
+                  onClick={() => runOwnerAction(() => onToggleSold(listing))}
+                  disabled={busy}
+                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg border border-stone-300 bg-white hover:bg-stone-100 disabled:opacity-60 text-stone-800 text-sm font-semibold cursor-pointer"
                 >
-                  {copiedField === 'email' ? (
-                    <>
-                      <Check className="w-3.5 h-3.5 text-emerald-700" />
-                      <span>Copied</span>
-                    </>
-                  ) : (
-                    <>
-                      <Copy className="w-3.5 h-3.5" />
-                      <span>Copy</span>
-                    </>
-                  )}
+                  <CheckCircle2 className="w-4 h-4 text-emerald-700" />
+                  <span>{listing.status === 'sold' ? 'Mark as Available Again' : 'Mark as Sold'}</span>
+                </button>
+                <button
+                  onClick={handleDelete}
+                  disabled={busy}
+                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg border border-rose-200 bg-white hover:bg-rose-50 disabled:opacity-60 text-rose-700 text-sm font-semibold cursor-pointer"
+                >
+                  <Trash2 className="w-4 h-4" />
+                  <span>Delete listing</span>
                 </button>
               </div>
+              {actionError && <p className="text-xs text-rose-600 font-medium">{actionError}</p>}
             </div>
-
-            <div className="flex flex-wrap items-center justify-between gap-3 pt-2 text-xs text-stone-600">
-              <span>
-                💡 <strong>Local Tip:</strong> You’re welcome to meet at Wade’s shop in Crestone for
-                a test ride or battery load check!
-              </span>
-
-              <button
-                onClick={() => onToggleSold(listing.id)}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-stone-300 bg-white hover:bg-stone-100 text-stone-700 font-semibold cursor-pointer"
-              >
-                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-700" />
-                <span>{listing.status === 'sold' ? 'Mark as Active Again' : 'Seller: Mark as Sold'}</span>
-              </button>
-            </div>
-          </div>
+          )}
         </div>
       </div>
     </div>
   );
 };
-

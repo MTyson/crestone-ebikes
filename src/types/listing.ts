@@ -4,6 +4,8 @@ export type ListingCondition = 'Like New' | 'Good' | 'Fair' | 'Needs Work / Part
 
 export type ListingStatus = 'active' | 'pending' | 'sold';
 
+export type PreferredContact = 'Text or Call' | 'Email Only' | 'Text or Email';
+
 export interface Listing {
   id: string;
   created_at: string;
@@ -15,39 +17,43 @@ export interface Listing {
   location: string;
   description: string;
   image_url: string;
+  image_urls?: string[];
+  /** Crestone E-Bike Approved. Only settable from the Supabase dashboard. */
   ceb_approved?: boolean;
-  wade_inspected?: boolean; // backwards compatibility alias
-  inspection_note?: string;
-  wade_note?: string; // backwards compatibility alias
+  inspection_note?: string | null;
   status: ListingStatus;
 
   // Optional e-bike specs
-  brand?: string;
-  motor_watts?: string;
-  battery_spec?: string;
-  range_estimate?: string;
-  mileage?: string;
-  wheel_size?: string;
+  brand?: string | null;
+  motor_watts?: string | null;
+  battery_spec?: string | null;
+  range_estimate?: string | null;
+  mileage?: string | null;
+  wheel_size?: string | null;
 
-  // Seller contact details
   seller_name: string;
-  seller_email: string;
-  seller_phone?: string;
-  preferred_contact: 'Text or Call' | 'Email Only' | 'Text or Email';
+
+  // Prototype mode only. With Supabase these live in a private table and are
+  // fetched on demand via fetchListingContact().
+  seller_email?: string;
+  seller_phone?: string | null;
+  preferred_contact?: PreferredContact;
 }
 
-export interface NewListingInput {
+export interface ListingContact {
+  seller_email: string;
+  seller_phone?: string | null;
+  preferred_contact: PreferredContact;
+}
+
+/** What the Post form collects (photos are uploaded separately). */
+export interface NewListingForm {
   title: string;
   category: ListingCategory;
   price: number;
   condition: ListingCondition;
   location: string;
   description: string;
-  image_url: string;
-  ceb_approved?: boolean;
-  wade_inspected?: boolean;
-  inspection_note?: string;
-  wade_note?: string;
   brand?: string;
   motor_watts?: string;
   battery_spec?: string;
@@ -57,7 +63,13 @@ export interface NewListingInput {
   seller_name: string;
   seller_email: string;
   seller_phone?: string;
-  preferred_contact: 'Text or Call' | 'Email Only' | 'Text or Email';
+  preferred_contact: PreferredContact;
+}
+
+/** Form data plus uploaded photo URLs; what the service layer persists. */
+export interface NewListingInput extends NewListingForm {
+  image_url: string;
+  image_urls: string[];
 }
 
 export interface AppUser {
@@ -66,4 +78,3 @@ export interface AppUser {
   name?: string;
   isDemo?: boolean;
 }
-

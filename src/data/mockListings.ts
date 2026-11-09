@@ -14,10 +14,7 @@ export const INITIAL_LISTINGS: Listing[] = [
     image_url:
       'https://images.unsplash.com/photo-1571068316344-75bc76f77890?auto=format&fit=crop&w=1000&q=80',
     ceb_approved: true,
-    wade_inspected: true,
     inspection_note:
-      'Battery health tested at 94% capacity under load. Fresh brake pads, controller connectors dielectric-greased against valley dust.',
-    wade_note:
       'Battery health tested at 94% capacity under load. Fresh brake pads, controller connectors dielectric-greased against valley dust.',
     status: 'active',
     brand: 'Rad Power Bikes',
@@ -44,10 +41,7 @@ export const INITIAL_LISTINGS: Listing[] = [
     image_url:
       'https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?auto=format&fit=crop&w=1000&q=80',
     ceb_approved: true,
-    wade_inspected: true,
     inspection_note:
-      'Checked over in the shop last week — cells are balanced to 0.01V and drivetrain has almost zero wear.',
-    wade_note:
       'Checked over in the shop last week — cells are balanced to 0.01V and drivetrain has almost zero wear.',
     status: 'active',
     brand: 'Aventon',
@@ -74,11 +68,8 @@ export const INITIAL_LISTINGS: Listing[] = [
     image_url:
       'https://images.unsplash.com/photo-1485965120184-e220f721d03e?auto=format&fit=crop&w=1000&q=80',
     ceb_approved: true,
-    wade_inspected: true,
     inspection_note:
       'Custom mid-drive build programmed on the shop bench. Gentle throttle ramp, strong hill-climbing profile, freshly greased planetary gears.',
-    wade_note:
-      'I helped build and program the controller on this one. Gentle throttle ramp, strong hill-climbing profile, freshly greased planetary gears.',
     status: 'active',
     brand: 'Surly / Bafang Custom',
     motor_watts: '1000W Mid-Drive',
@@ -104,10 +95,7 @@ export const INITIAL_LISTINGS: Listing[] = [
     image_url:
       'https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=1000&q=80',
     ceb_approved: true,
-    wade_inspected: true,
     inspection_note:
-      'Bench load-tested at 10A continuous discharge. Healthy BMS, XT60 discharge lead ready to wire to your bike.',
-    wade_note:
       'Bench load-tested at 10A continuous discharge. Healthy BMS, XT60 discharge lead ready to wire to your bike.',
     status: 'active',
     battery_spec: '48V 17.5Ah (840Wh)',
@@ -129,7 +117,6 @@ export const INITIAL_LISTINGS: Listing[] = [
     image_url:
       'https://images.unsplash.com/photo-1507035895480-2b3156c31fc8?auto=format&fit=crop&w=1000&q=80',
     ceb_approved: false,
-    wade_inspected: false,
     status: 'active',
     brand: 'Lectric',
     motor_watts: '500W (850W Peak)',
@@ -155,7 +142,6 @@ export const INITIAL_LISTINGS: Listing[] = [
     image_url:
       'https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&w=1000&q=80',
     ceb_approved: false,
-    wade_inspected: false,
     status: 'active',
     seller_name: 'Elena R.',
     seller_email: 'elena.slv@example.com',
