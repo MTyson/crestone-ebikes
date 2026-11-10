@@ -278,6 +278,14 @@ export const AskWadeSection: React.FC<AskWadeSectionProps> = ({ currentUser, onS
                 ) : (
                   <p className="mt-1.5 text-sm text-stone-800 whitespace-pre-wrap">{q.question}</p>
                 )}
+                {editingId !== q.id &&
+                  (q.answer ? (
+                    <div className="mt-3 p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-sm text-emerald-950 whitespace-pre-wrap">
+                      <strong>Wade’s answer:</strong> {q.answer}
+                    </div>
+                  ) : (
+                    <p className="mt-2 text-xs text-stone-500 italic">Waiting for Wade’s reply…</p>
+                  ))}
               </div>
             ))}
           </div>

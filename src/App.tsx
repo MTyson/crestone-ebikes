@@ -5,6 +5,7 @@ import { Marketplace } from './components/Marketplace';
 import { MeetWadeSection } from './components/MeetWadeSection';
 import { AskWadeSection } from './components/AskWadeSection';
 import { AdminInbox } from './components/AdminInbox';
+import { QASection } from './components/QASection';
 import { isAdminUser } from './services/questionsService';
 import { ListingDetailModal } from './components/ListingDetailModal';
 import { PostListingModal } from './components/PostListingModal';
@@ -34,6 +35,7 @@ export function App() {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isDonateModalOpen, setIsDonateModalOpen] = useState(false);
   const [pendingPost, setPendingPost] = useState(false);
+  const [qaVersion, setQaVersion] = useState(0);
 
   const loadListings = useCallback(async () => {
     setLoading(true);
@@ -147,9 +149,13 @@ export function App() {
 
         <MeetWadeSection />
 
+        <QASection currentUser={currentUser} refreshToken={qaVersion} />
+
         <AskWadeSection currentUser={currentUser} onSignedIn={(user) => setCurrentUser(user)} />
 
-        {isAdminUser(currentUser) && <AdminInbox key={currentUser?.id} />}
+        {isAdminUser(currentUser) && (
+          <AdminInbox key={currentUser?.id} onPublished={() => setQaVersion((v) => v + 1)} />
+        )}
       </main>
 
       <Footer

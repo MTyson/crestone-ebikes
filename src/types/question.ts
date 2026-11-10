@@ -6,4 +6,5 @@ export interface Question {
   asker_email: string;
   question: string;
   answered_at?: string | null;
+  answer?: string | null;
 }

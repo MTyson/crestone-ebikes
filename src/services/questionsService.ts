@@ -12,7 +12,8 @@ import { Question } from '../types/question';
 
 const LOCAL_KEY = 'crestone_questions_v1';
 const PENDING_KEY = 'crestone_pending_question_v1';
-const COLUMNS = 'id, created_at, updated_at, user_id, asker_email, question, answered_at';
+const COLUMNS =
+  'id, created_at, updated_at, user_id, asker_email, question, answered_at, answer';
 
 export const MAX_QUESTION_LENGTH = 1500;
 
@@ -102,6 +103,25 @@ export async function setQuestionAnswered(id: string, answered: boolean): Promis
     return data[0] as Question;
   }
   const items = readLocal().map((q) => (q.id === id ? { ...q, answered_at } : q));
+  writeLocal(items);
+  return items.find((q) => q.id === id)!;
+}
+
+/** Saves Wade's written answer (marks answered; clearing it reopens the question). */
+export async function setQuestionAnswer(id: string, answer: string): Promise<Question> {
+  const clean = answer.trim();
+  const patch = { answer: clean || null, answered_at: clean ? new Date().toISOString() : null };
+  if (supabase) {
+    const { data, error } = await supabase
+      .from('questions')
+      .update(patch)
+      .eq('id', id)
+      .select(COLUMNS);
+    if (error) throw new Error(error.message);
+    if (!data || data.length === 0) throw new Error('Only admins can do that.');
+    return data[0] as Question;
+  }
+  const items = readLocal().map((q) => (q.id === id ? { ...q, ...patch } : q));
   writeLocal(items);
   return items.find((q) => q.id === id)!;
 }

@@ -211,9 +211,12 @@ create table if not exists public.questions (
   user_id uuid not null references auth.users(id) on delete cascade,
   asker_email text not null,
   question text not null check (char_length(question) between 5 and 1500),
-  answered_at timestamptz
+  answered_at timestamptz,
+  answer text check (answer is null or char_length(answer) <= 4000)
 );
 alter table public.questions add column if not exists answered_at timestamptz;
+alter table public.questions add column if not exists answer text
+  check (answer is null or char_length(answer) <= 4000);
 
 create index if not exists questions_user_idx on public.questions (user_id, created_at desc);
 
@@ -238,6 +241,7 @@ begin
     if tg_op = 'INSERT' then
       new.user_id     := auth.uid();
       new.answered_at := null;
+      new.answer      := null;
       new.asker_email := coalesce(auth.jwt() ->> 'email', '');
       if (
         select count(*) from public.questions
@@ -250,15 +254,19 @@ begin
       new.user_id     := old.user_id;
       new.asker_email := old.asker_email;
       new.created_at  := old.created_at;
-      if old.user_id = auth.uid() then
+      if old.user_id = auth.uid() and not public.is_admin() then
         -- Asker edited their own question: it needs a fresh look from Wade.
+        new.answer := old.answer;
         if new.question is distinct from old.question then
           new.answered_at := null;
         else
           new.answered_at := old.answered_at;
         end if;
+      elsif old.user_id = auth.uid() then
+        -- An admin editing their own question may touch everything.
+        null;
       else
-        -- Admin (not the asker): may only toggle answered_at.
+        -- Admin answering someone else's question: only answer / answered_at.
         new.question := old.question;
       end if;
     end if;
@@ -312,3 +320,43 @@ create policy "Users delete own questions"
   on public.questions for delete
   to authenticated
   using ((select auth.uid()) = user_id);
+
+-- 8. Public Q&A / updates log -------------------------------------------------
+-- Readable by everyone; only admins (is_admin()) can add, edit or delete.
+-- Published Q&A entries copy the question text WITHOUT the asker's email.
+create table if not exists public.posts (
+  id uuid primary key default gen_random_uuid(),
+  created_at timestamptz not null default now(),
+  title text check (title is null or char_length(title) <= 150),
+  question text check (question is null or char_length(question) <= 1500),
+  body text not null check (char_length(body) between 1 and 6000),
+  author_name text not null default 'Wade' check (char_length(author_name) <= 60)
+);
+
+create index if not exists posts_created_idx on public.posts (created_at desc);
+
+alter table public.posts enable row level security;
+
+drop policy if exists " Public can read posts\ on public.posts;
+create policy \Public can read posts\
+ on public.posts for select
+ using (true);
+
+drop policy if exists \Admins add posts\ on public.posts;
+create policy \Admins add posts\
+ on public.posts for insert
+ to authenticated
+ with check (public.is_admin());
+
+drop policy if exists \Admins edit posts\ on public.posts;
+create policy \Admins edit posts\
+ on public.posts for update
+ to authenticated
+ using (public.is_admin())
+ with check (public.is_admin());
+
+drop policy if exists \Admins delete posts\ on public.posts;
+create policy \Admins delete posts\
+ on public.posts for delete
+ to authenticated
+ using (public.is_admin());
