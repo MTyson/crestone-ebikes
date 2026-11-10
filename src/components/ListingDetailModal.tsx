@@ -196,12 +196,12 @@ export const ListingDetailModal: React.FC<ListingDetailModalProps> = ({
                     Crestone E-Bike (CEB) Approved Report
                   </h4>
                   <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-emerald-900 text-emerald-200 border border-emerald-700/60">
-                    Bench Verified
+                    Inspected by Wade
                   </span>
                 </div>
                 <p className="text-sm text-emerald-100 mt-1 leading-relaxed">
                   {listing.inspection_note ||
-                    'Checked on the shop repair bench in Crestone — battery load-tested, electrical diagnostics verified, and drivetrain inspected trail-ready.'}
+                    'Checked by Wade in Crestone — brakes, wiring, and battery continuity (multimeter) inspected, and drivetrain safety-checked.'}
                 </p>
               </div>
             </div>

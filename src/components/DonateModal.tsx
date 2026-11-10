@@ -16,7 +16,7 @@ export const DonateModal: React.FC<DonateModalProps> = ({ isOpen, onClose }) => 
     {
       amount: 5,
       label: 'Shop Coffee',
-      desc: 'Fuels early morning battery diagnostics on Wade’s bench',
+      desc: 'Fuels early morning wrenching on Wade’s bench',
       icon: <Coffee className="w-4 h-4 text-amber-700" />,
     },
     {

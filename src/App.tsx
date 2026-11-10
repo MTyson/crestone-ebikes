@@ -3,6 +3,9 @@ import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { Marketplace } from './components/Marketplace';
 import { MeetWadeSection } from './components/MeetWadeSection';
+import { AskWadeSection } from './components/AskWadeSection';
+import { AdminInbox } from './components/AdminInbox';
+import { isAdminUser } from './services/questionsService';
 import { ListingDetailModal } from './components/ListingDetailModal';
 import { PostListingModal } from './components/PostListingModal';
 import { AuthModal } from './components/AuthModal';
@@ -143,6 +146,10 @@ export function App() {
         />
 
         <MeetWadeSection />
+
+        <AskWadeSection currentUser={currentUser} onSignedIn={(user) => setCurrentUser(user)} />
+
+        {isAdminUser(currentUser) && <AdminInbox key={currentUser?.id} />}
       </main>
 
       <Footer

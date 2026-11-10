@@ -67,9 +67,9 @@ export const Hero: React.FC<HeroProps> = ({
             </div>
 
             <p className="text-lg sm:text-xl text-stone-600 leading-relaxed max-w-2xl">
-              The neighborhood trading post for buying and selling used e-bikes, spare batteries,
-              fat tires, and chargers in Crestone &amp; the Baca Grande — backed by local mechanic{' '}
-              <strong className="text-stone-900">Wade’s workshop</strong>.
+              The neighborhood trading post and forum for buying and selling used e-bikes, parts, and
+              accessories, plus questions and comments, in Crestone &amp; the Baca Grande — backed
+              by local mechanic <strong className="text-stone-900">Wade’s workshop</strong>.
             </p>
 
             {/* Prominent Front & Center on Mobile: Photo of Wade appears right here */}
@@ -90,7 +90,7 @@ export const Hero: React.FC<HeroProps> = ({
                   href="#wade-workshop"
                   className="text-emerald-800 font-semibold hover:underline inline-flex items-center gap-1"
                 >
-                  Explore CEB diagnostics &amp; repairs &rarr;
+                  Explore Wade’s repair services &rarr;
                 </a>
               </footer>
             </blockquote>
@@ -122,14 +122,14 @@ export const Hero: React.FC<HeroProps> = ({
                   <span className="font-bold text-stone-900 block">
                     {cebApprovedCount} CEB Approved
                   </span>
-                  Load-tested batteries &amp; brakes
+                  Brakes, wiring &amp; safety checked
                 </div>
               </div>
               <div className="flex items-start gap-2.5">
                 <Wrench className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
                 <div>
                   <span className="font-bold text-stone-900 block">Local Repair Bench</span>
-                  Motors, controllers &amp; tune-ups
+                  Tune-ups, wiring &amp; assembly
                 </div>
               </div>
               <div className="flex items-start gap-2.5">

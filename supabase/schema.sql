@@ -197,3 +197,118 @@ create policy "Users delete own photos"
     bucket_id = 'listing-photos'
     and (storage.foldername(name))[1] = (select auth.uid())::text
   );
+
+
+-- 7. "Ask Wade" questions ------------------------------------------------------
+-- Not a public forum: questions are private to the asker (RLS) and tied to a
+-- verified email (magic link). Admins (Wade + Matthew, by verified email) see
+-- all questions in an in-app inbox and reply privately by email.
+-- >>> To add/remove an admin, edit the list in is_admin() below and re-run. <<<
+create table if not exists public.questions (
+  id uuid primary key default gen_random_uuid(),
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  asker_email text not null,
+  question text not null check (char_length(question) between 5 and 1500),
+  answered_at timestamptz
+);
+alter table public.questions add column if not exists answered_at timestamptz;
+
+create index if not exists questions_user_idx on public.questions (user_id, created_at desc);
+
+-- The email claim in the JWT comes from the verified magic link, so it can't be spoofed.
+create or replace function public.is_admin()
+returns boolean
+language sql
+stable
+as $$
+  select lower(coalesce(auth.jwt() ->> 'email', '')) in (
+    'lockiew@yahoo.com',
+    'matthewcarltyson@gmail.com'
+  );
+$$;
+
+create or replace function public.questions_guard()
+returns trigger
+language plpgsql
+as $$
+begin
+  if current_user in ('anon', 'authenticated') then
+    if tg_op = 'INSERT' then
+      new.user_id     := auth.uid();
+      new.answered_at := null;
+      new.asker_email := coalesce(auth.jwt() ->> 'email', '');
+      if (
+        select count(*) from public.questions
+        where user_id = new.user_id
+          and created_at > now() - interval '24 hours'
+      ) >= 10 then
+        raise exception 'Question limit reached: you can ask up to 10 questions per day.';
+      end if;
+    else
+      new.user_id     := old.user_id;
+      new.asker_email := old.asker_email;
+      new.created_at  := old.created_at;
+      if old.user_id = auth.uid() then
+        -- Asker edited their own question: it needs a fresh look from Wade.
+        if new.question is distinct from old.question then
+          new.answered_at := null;
+        else
+          new.answered_at := old.answered_at;
+        end if;
+      else
+        -- Admin (not the asker): may only toggle answered_at.
+        new.question := old.question;
+      end if;
+    end if;
+  end if;
+  new.updated_at := now();
+  return new;
+end;
+$$;
+
+drop trigger if exists questions_guard_trg on public.questions;
+create trigger questions_guard_trg
+  before insert or update on public.questions
+  for each row execute function public.questions_guard();
+
+alter table public.questions enable row level security;
+
+drop policy if exists "Users read own questions" on public.questions;
+create policy "Users read own questions"
+  on public.questions for select
+  to authenticated
+  using ((select auth.uid()) = user_id or public.is_admin());
+
+drop policy if exists "Admins update questions" on public.questions;
+create policy "Admins update questions"
+  on public.questions for update
+  to authenticated
+  using (public.is_admin())
+  with check (public.is_admin());
+
+drop policy if exists "Admins delete questions" on public.questions;
+create policy "Admins delete questions"
+  on public.questions for delete
+  to authenticated
+  using (public.is_admin());
+
+drop policy if exists "Users ask questions" on public.questions;
+create policy "Users ask questions"
+  on public.questions for insert
+  to authenticated
+  with check ((select auth.uid()) = user_id);
+
+drop policy if exists "Users edit own questions" on public.questions;
+create policy "Users edit own questions"
+  on public.questions for update
+  to authenticated
+  using ((select auth.uid()) = user_id)
+  with check ((select auth.uid()) = user_id);
+
+drop policy if exists "Users delete own questions" on public.questions;
+create policy "Users delete own questions"
+  on public.questions for delete
+  to authenticated
+  using ((select auth.uid()) = user_id);

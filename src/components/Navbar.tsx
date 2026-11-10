@@ -65,6 +65,9 @@ export const Navbar: React.FC<NavbarProps> = ({
             <Wrench className="w-4 h-4 text-amber-600" />
             Meet Wade &amp; Repairs
           </a>
+          <a href="#ask-wade" className="hover:text-emerald-800 transition-colors">
+            Ask Wade
+          </a>
           <a href="#how-it-works" className="hover:text-emerald-800 transition-colors">
             How It Works
           </a>

@@ -37,7 +37,7 @@ export const INITIAL_LISTINGS: Listing[] = [
     condition: 'Like New',
     location: 'Town of Crestone (Near Elephant Cloud)',
     description:
-      'Super smooth torque sensor pedaling that climbs up toward North Crestone Creek trailhead without breaking a sweat. Step-through frame in Camouflage Green (Size Regular, fits 5\'3" to 6\'0"). Comes with fenders, integrated rear turn signals, and a suspension seatpost for washboard roads.',
+      'Super smooth torque sensor pedaling that handles Baca dirt roads without breaking a sweat. Step-through frame in Camouflage Green (Size Regular, fits 5\'3" to 6\'0"). Comes with fenders, integrated rear turn signals, and a suspension seatpost for washboard roads.',
     image_url:
       'https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?auto=format&fit=crop&w=1000&q=80',
     ceb_approved: true,
@@ -64,7 +64,7 @@ export const INITIAL_LISTINGS: Listing[] = [
     condition: 'Good',
     location: 'Baca Grande — Grants',
     description:
-      'Custom backcountry mule built together with Wade in his shop. Chromoly steel touring frame paired with a bulletproof Bafang 1000W mid-drive motor so you can use all 11 gears on steep mountain grades. 52V Shark battery pack, Jones H-Bar handlebars, and tubeless 27.5 x 2.8 trail tires.',
+      'Custom dirt-road mule built together with Wade in his shop. Chromoly steel touring frame paired with a bulletproof Bafang 1000W mid-drive motor so you can use all 11 gears on steep dirt-road grades. 52V Shark battery pack, Jones H-Bar handlebars, and tubeless 27.5 x 2.8 tires.',
     image_url:
       'https://images.unsplash.com/photo-1485965120184-e220f721d03e?auto=format&fit=crop&w=1000&q=80',
     ceb_approved: true,
@@ -91,12 +91,12 @@ export const INITIAL_LISTINGS: Listing[] = [
     condition: 'Good',
     location: 'Crestone (Pickup by Appointment)',
     description:
-      'Universal 48V Hailong shark-style battery pack with mounting cradle and 2 keys. Great as a spare range-extender battery or replacement for a tired 48V pack. Load-tested on Wade’s bench analyzer and holds 16.4Ah actual capacity.',
+      'Universal 48V Hailong shark-style battery pack with mounting cradle and 2 keys. Great as a spare range-extender battery or replacement for a tired 48V pack. Continuity and voltage checked with a multimeter by Wade.',
     image_url:
       'https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=1000&q=80',
     ceb_approved: true,
     inspection_note:
-      'Bench load-tested at 10A continuous discharge. Healthy BMS, XT60 discharge lead ready to wire to your bike.',
+      'Multimeter and continuity checked: pack voltage and cell-group balance look healthy, XT60 discharge lead ready to wire to your bike.',
     status: 'active',
     battery_spec: '48V 17.5Ah (840Wh)',
     seller_name: 'Wade (Local Consignment)',

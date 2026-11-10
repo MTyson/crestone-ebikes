@@ -9,7 +9,8 @@ Local community marketplace for buying and selling electric bikes, spare batteri
 - **Meet Wade & Inside the Workshop**:
   - Two custom placeholder photos of Wade in front of his Crestone shop (`/images/wade-shop-front.jpg`) and inside his repair workshop (`/images/wade-workshop.jpg`).
   - Wade's quote: *"I just want to get people riding bikes!"*
-  - Overview of how Wade diagnoses and fixes e-bikes (load-testing batteries, motor & controller wiring, heavy-duty brakes, and Crestone sand/goathead proofing).
+  - Overview of how Wade fixes e-bikes (multimeter/continuity checks, throttles & wiring, motor clutches, heavy-duty brakes, and order-on-demand goathead proofing), plus new-bike purchase consultations and mail-order box assembly.
+  - **Ask Wade**: email-verified (magic link) private questions stored in Supabase (`questions` table). Admins (Wade + Matthew; edit `is_admin()` in `schema.sql` and `ADMIN_EMAILS` in `questionsService.ts`) see an in-app inbox with Reply and Mark answered. Askers can edit their question afterward. No email service needed.
   - Back-burner **Coming Soon: Short Video Interview with Wade** placeholder card.
 - **"Buy Wade a Coffee" Community Tip Jar**: Keeps posting 100% free for the community with optional contribution tiers.
 - **Supabase + Magic Link Auth + Vercel Ready**:

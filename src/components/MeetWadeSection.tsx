@@ -9,33 +9,51 @@ import {
   CheckCircle2,
   PhoneCall,
   ShieldCheck,
+  Search,
+  PackageOpen,
+  Mountain,
 } from 'lucide-react';
 
 export const MeetWadeSection: React.FC = () => {
   const repairHighlights = [
     {
       icon: <BatteryCharging className="w-5 h-5 text-amber-400" />,
-      title: 'Battery Diagnostics & Load Testing',
+      title: 'Battery Connectors & Basic Checks',
       description:
-        'A battery that reads 54V on a charger can still sag under load on a hill. Wade tests packs under real current draw, checks BMS health, balances cells, and replaces melted or dusty discharge connectors with reliable XT60/XT90 leads.',
+        'Wade checks packs with a multimeter and continuity testing, inspects the BMS wiring and charge port, and replaces melted or dusty discharge connectors with reliable XT60/XT90 leads.',
     },
     {
       icon: <Cpu className="w-5 h-5 text-emerald-400" />,
-      title: 'Motors, Controllers & Wiring Rescue',
+      title: 'Motors, Throttles & Wiring Rescue',
       description:
-        'From Bafang mid-drive conversions and planetary gear regreasing to troubleshooting hall sensor errors, broken throttles, and chewed or pinched wiring harnesses.',
+        'Plug-and-play repairs: broken throttles, chewed or pinched wiring harnesses, and visible damage. Wade also replaces motor clutches and greases planetary gears.',
     },
     {
       icon: <Disc className="w-5 h-5 text-sky-400" />,
       title: 'Brakes & Drivetrain for Heavy E-Bikes',
       description:
-        'A 70-pound e-bike coming down from the foothills needs real stopping power. Wade bleeds hydraulic disc brakes, upgrades rotors, aligns derailleurs, and trues heavy hub-motor wheels.',
+        'A 70-pound e-bike rolling down a dirt road needs real stopping power. Wade bleeds hydraulic disc brakes, upgrades rotors, aligns derailleurs, and trues heavy hub-motor wheels.',
     },
     {
       icon: <Compass className="w-5 h-5 text-rose-400" />,
       title: 'Crestone Dirt, Sand & Goathead Proofing',
       description:
-        'Setups dialed specifically for Baca Grande washboard roads and sand patches — fat-tire sealant, heavy-duty liners, suspension seatposts, and dust-sealed electrical connections.',
+        'Can install sealants, heavy-duty liners, and shock-absorbing components on a custom/mail-order basis. Wade measures your bike locally, then orders the right parts specifically for it.',
+    },
+  ];
+
+  const buyerServices = [
+    {
+      icon: <Search className="w-6 h-6 text-amber-300" />,
+      title: 'New Bike Purchase Consultation',
+      description:
+        'Thinking about buying an e-bike online (Amazon, eBay, etc.) or at a shop? Send Wade the listing. He’ll evaluate the features and battery specs and give you honest advice before you take the plunge, so you can skip the sticker shock at high-end bike shops.',
+    },
+    {
+      icon: <PackageOpen className="w-6 h-6 text-emerald-300" />,
+      title: 'Mail-Order Box Assembly',
+      description:
+        'Bought a new bike online and it showed up in the manufacturer’s box? Wade offers complete, professional assembly and safety tuning, so you roll away with a bike that’s built right.',
     },
   ];
 
@@ -58,7 +76,7 @@ export const MeetWadeSection: React.FC = () => {
 
           <p className="text-stone-300 text-lg mt-4 leading-relaxed">
             Around Crestone, an e-bike isn’t just a toy — it’s how neighbors run errands to the
-            Mercantile, visit friends across the Chalets, and explore the foothills without burning
+            Mercantile, visit friends across the Chalets, and cruise the dirt roads without burning
             gas. When mail-order e-bike companies won’t answer the phone or local bike shops turn
             away electric motors, <strong className="text-white">Wade gets them back on the road.</strong>
           </p>
@@ -87,19 +105,19 @@ export const MeetWadeSection: React.FC = () => {
                   <span>LEVA-Certified Light Electric Vehicle Technician</span>
                 </div>
                 <h3 className="font-serif-display text-2xl font-bold text-white">
-                  Real Diagnostics — Mechanical &amp; Electrical
+                  Hands-On Repairs — Mechanical &amp; Electrical
                 </h3>
                 <p className="text-stone-300 text-sm sm:text-base mt-2 leading-relaxed">
-                  Most e-bike problems come down to a mystery error code, a loose phase-wire pin, a
-                  worn brake sensor, or a tired battery cell group. Trained in classic Sutherland bicycle
+                  Most e-bike problems come down to a broken throttle, a loose connector, a worn
+                  brake sensor, or a pinched wiring harness. Trained in classic Sutherland bicycle
                   mechanics and certified by the Light Electric Vehicle Association (LEVA), Wade puts
-                  your bike on the stand, hooks up the multimeter and load tester, and finds out what’s
+                  your bike on the stand, hooks up the multimeter, and finds out what’s
                   actually going on.
                 </p>
               </div>
               <div className="mt-5 pt-4 border-t border-stone-800/80 flex flex-wrap items-center gap-4 text-xs text-stone-400">
                 <span className="inline-flex items-center gap-1.5 text-emerald-300 font-medium">
-                  <CheckCircle2 className="w-4 h-4" /> LEVA-Certified diagnostics &amp; wiring
+                  <CheckCircle2 className="w-4 h-4" /> LEVA-Certified repairs &amp; wiring
                 </span>
                 <span className="inline-flex items-center gap-1.5 text-amber-300 font-medium">
                   <CheckCircle2 className="w-4 h-4" /> Pre-purchase inspections for buyers &amp; sellers
@@ -133,7 +151,7 @@ export const MeetWadeSection: React.FC = () => {
                 <p className="text-sm text-stone-300 mt-1.5 leading-relaxed">
                   Selling your bike on Crestone E-Bike? Connect with Wade to schedule a quick safety
                   and battery checkup so buyers know the battery holds a real charge and the brakes
-                  are trail-ready.
+                  are road-ready.
                 </p>
               </div>
             </div>
@@ -152,8 +170,8 @@ export const MeetWadeSection: React.FC = () => {
                     Short Video Interview with Wade
                   </h4>
                   <p className="text-xs sm:text-sm text-stone-300 mt-1 leading-relaxed">
-                    We’re planning a short shop-talk video with Wade showing how he diagnoses
-                    batteries, converts mountain bikes for Crestone’s sandy roads, and keeps local
+                    We’re planning a short shop-talk video with Wade showing how he fixes
+                    e-bikes, converts mountain bikes for Crestone’s sandy roads, and keeps local
                     bikes rolling. Stay tuned!
                   </p>
                 </div>
@@ -178,11 +196,57 @@ export const MeetWadeSection: React.FC = () => {
           ))}
         </div>
 
+        {/* New Services: Consultation & Assembly */}
+        <div className="mt-10 rounded-3xl p-6 sm:p-8 bg-gradient-to-br from-amber-400/15 via-stone-950/70 to-stone-950/70 border border-amber-400/40">
+          <span className="inline-block text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-amber-400/20 text-amber-300">
+            Buying a New E-Bike?
+          </span>
+          <h3 className="font-serif-display text-2xl sm:text-3xl font-bold text-white mt-2">
+            Avoid the sticker shock — get Wade’s advice first
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5">
+            {buyerServices.map((item) => (
+              <div
+                key={item.title}
+                className="p-5 rounded-2xl bg-stone-900/80 border border-stone-700/80"
+              >
+                <div className="w-11 h-11 rounded-xl bg-stone-950 border border-stone-800 flex items-center justify-center mb-3">
+                  {item.icon}
+                </div>
+                <h4 className="font-serif-display text-lg font-bold text-white">{item.title}</h4>
+                <p className="text-sm text-stone-300 mt-1.5 leading-relaxed">{item.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Responsible riding note */}
+        <div
+          id="ride-responsibly"
+          className="mt-10 p-6 rounded-2xl bg-emerald-950/70 border border-emerald-800/50 flex items-start gap-4"
+        >
+          <div className="w-11 h-11 rounded-xl bg-emerald-900 text-emerald-200 flex items-center justify-center shrink-0">
+            <Mountain className="w-5 h-5" />
+          </div>
+          <div>
+            <h4 className="font-serif-display text-lg font-bold text-white">
+              Ride to the trailhead, then walk in
+            </h4>
+            <p className="text-sm text-emerald-100/90 mt-1 leading-relaxed">
+              E-bikes are motorized vehicles. Use yours for streets, dirt roads, and getting around
+              town, not on footpaths. Ride to a trailhead (like the Baca Greenbelt or the US Forest
+              Service boundary), park and lock your bike, and continue on foot or with a backpack.
+              That keeps our walking and hiking trails pristine and follows local wilderness
+              regulations. Always check the posted rules for the area you’re visiting.
+            </p>
+          </div>
+        </div>
+
         {/* Shop Contact Strip */}
         <div className="mt-10 p-6 rounded-2xl bg-emerald-950/70 border border-emerald-800/50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
             <h4 className="font-serif-display text-lg font-bold text-white">
-              Need an e-bike tune-up, battery test, or conversion consult?
+              Need a tune-up, bike assembly, or a second opinion before you buy?
             </h4>
             <p className="text-sm text-emerald-200/90 mt-0.5">
               Call or text Wade directly at <strong className="text-white">(719) 588-9246</strong> to schedule an appointment.
