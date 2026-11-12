@@ -321,6 +321,7 @@ create policy "Users delete own questions"
   to authenticated
   using ((select auth.uid()) = user_id);
 
+
 -- 8. Public Q&A / updates log -------------------------------------------------
 -- Readable by everyone; only admins (is_admin()) can add, edit or delete.
 -- Published Q&A entries copy the question text WITHOUT the asker's email.
@@ -337,26 +338,26 @@ create index if not exists posts_created_idx on public.posts (created_at desc);
 
 alter table public.posts enable row level security;
 
-drop policy if exists " Public can read posts\ on public.posts;
-create policy \Public can read posts\
- on public.posts for select
- using (true);
+drop policy if exists "Public can read posts" on public.posts;
+create policy "Public can read posts"
+  on public.posts for select
+  using (true);
 
-drop policy if exists \Admins add posts\ on public.posts;
-create policy \Admins add posts\
- on public.posts for insert
- to authenticated
- with check (public.is_admin());
+drop policy if exists "Admins add posts" on public.posts;
+create policy "Admins add posts"
+  on public.posts for insert
+  to authenticated
+  with check (public.is_admin());
 
-drop policy if exists \Admins edit posts\ on public.posts;
-create policy \Admins edit posts\
- on public.posts for update
- to authenticated
- using (public.is_admin())
- with check (public.is_admin());
+drop policy if exists "Admins edit posts" on public.posts;
+create policy "Admins edit posts"
+  on public.posts for update
+  to authenticated
+  using (public.is_admin())
+  with check (public.is_admin());
 
-drop policy if exists \Admins delete posts\ on public.posts;
-create policy \Admins delete posts\
- on public.posts for delete
- to authenticated
- using (public.is_admin());
+drop policy if exists "Admins delete posts" on public.posts;
+create policy "Admins delete posts"
+  on public.posts for delete
+  to authenticated
+  using (public.is_admin());

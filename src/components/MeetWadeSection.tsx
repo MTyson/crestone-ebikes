@@ -12,6 +12,7 @@ import {
   Search,
   PackageOpen,
   Mountain,
+  HelpCircle,
 } from 'lucide-react';
 
 export const MeetWadeSection: React.FC = () => {
@@ -107,13 +108,18 @@ export const MeetWadeSection: React.FC = () => {
                 <h3 className="font-serif-display text-2xl font-bold text-white">
                   Hands-On Repairs — Mechanical &amp; Electrical
                 </h3>
-                <p className="text-stone-300 text-sm sm:text-base mt-2 leading-relaxed">
-                  Most e-bike problems come down to a broken throttle, a loose connector, a worn
-                  brake sensor, or a pinched wiring harness. Trained in classic Sutherland bicycle
-                  mechanics and certified by the Light Electric Vehicle Association (LEVA), Wade puts
-                  your bike on the stand, hooks up the multimeter, and finds out what’s
-                  actually going on.
-                </p>
+                <div className="text-stone-300 text-sm sm:text-base mt-2 leading-relaxed">
+                  <p className="font-medium text-white mb-2">
+                    E-bike problems have a variety of sources:
+                  </p>
+                  <ul className="space-y-1.5 list-disc list-inside text-stone-300">
+                    <li>battery</li>
+                    <li>controller/display</li>
+                    <li>motor/throttle/cables</li>
+                    <li>PAS (pedal assist sensor)</li>
+                    <li>non-electronic (typical issues associated with bicycles)</li>
+                  </ul>
+                </div>
               </div>
               <div className="mt-5 pt-4 border-t border-stone-800/80 flex flex-wrap items-center gap-4 text-xs text-stone-400">
                 <span className="inline-flex items-center gap-1.5 text-emerald-300 font-medium">
@@ -149,10 +155,23 @@ export const MeetWadeSection: React.FC = () => {
                   Get the “Wade Inspected” Badge on Your Listing
                 </h3>
                 <p className="text-sm text-stone-300 mt-1.5 leading-relaxed">
-                  Selling your bike on Crestone E-Bike? Connect with Wade to schedule a quick safety
-                  and battery checkup so buyers know the battery holds a real charge and the brakes
-                  are road-ready.
+                  Selling your bike on Crestone E-Bike? Schedule a quick safety and function check.
                 </p>
+
+                {/* Battery Advice Callout */}
+                <div className="mt-4 pt-3.5 border-t border-stone-800 text-xs sm:text-sm">
+                  <div className="flex items-center gap-1.5 text-amber-300 font-semibold mb-1">
+                    <HelpCircle className="w-4 h-4 shrink-0" />
+                    <span>What should I know about the battery when buying a used e-bike?</span>
+                  </div>
+                  <p className="text-stone-300 leading-relaxed pl-5">
+                    Replacement e-bike batteries typically cost $300 or more, so battery health is
+                    important. For now, ask the seller for the typical range of the battery in its
+                    current state (in miles). Keep in mind that real-world range depends on the
+                    battery's rated capacity in ampere-hours, the terrain it was typically ridden on,
+                    and its age.
+                  </p>
+                </div>
               </div>
             </div>
 

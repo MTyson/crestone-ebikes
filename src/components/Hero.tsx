@@ -67,9 +67,10 @@ export const Hero: React.FC<HeroProps> = ({
             </div>
 
             <p className="text-lg sm:text-xl text-stone-600 leading-relaxed max-w-2xl">
-              The neighborhood trading post and forum for buying and selling used e-bikes, parts, and
-              accessories, plus questions and comments, in Crestone &amp; the Baca Grande — backed
-              by local mechanic <strong className="text-stone-900">Wade’s workshop</strong>.
+              The neighborhood trading post and information source for buying and selling used
+              e-bikes, parts, and accessories, plus questions and comments, in Crestone &amp; the
+              Baca Grande — backed by local mechanic{' '}
+              <strong className="text-stone-900">Wade’s workshop</strong>.
             </p>
 
             {/* Prominent Front & Center on Mobile: Photo of Wade appears right here */}
