@@ -108,17 +108,22 @@ export const MeetWadeSection: React.FC = () => {
                 <h3 className="font-serif-display text-2xl font-bold text-white">
                   Hands-On Repairs — Mechanical &amp; Electrical
                 </h3>
-                <div className="text-stone-300 text-sm sm:text-base mt-2 leading-relaxed">
-                  <p className="font-medium text-white mb-2">
+                <div className="text-stone-300 text-sm sm:text-base mt-2 leading-relaxed space-y-3">
+                  <p className="font-medium text-stone-200">
                     E-bike problems have a variety of sources:
                   </p>
-                  <ul className="space-y-1.5 list-disc list-inside text-stone-300">
+                  <ul className="space-y-1 list-disc list-inside text-stone-300 pl-1">
                     <li>battery</li>
                     <li>controller/display</li>
                     <li>motor/throttle/cables</li>
                     <li>PAS (pedal assist sensor)</li>
                     <li>non-electronic (typical issues associated with bicycles)</li>
                   </ul>
+                  <p className="text-stone-300 pt-1 leading-relaxed">
+                    Trained in classic Sutherland bicycle mechanics and certified by the Light
+                    Electric Vehicle Association (LEVA), Wade puts your bike in the rack, tests it
+                    with the multimeter, and finds out what’s actually going on.
+                  </p>
                 </div>
               </div>
               <div className="mt-5 pt-4 border-t border-stone-800/80 flex flex-wrap items-center gap-4 text-xs text-stone-400">
